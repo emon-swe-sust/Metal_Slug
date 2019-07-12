@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Man;
+import com.mygdx.game.Tools.WorldCreator;
 
 public class PlayScreen implements Screen {
     private MyGdxGame game;
@@ -52,25 +53,8 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0,-5f),true);
         b2dr = new Box2DDebugRenderer();
 
+        new WorldCreator(world,map);
         player = new Man(world);
-
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
-        for(MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX()+rect.getWidth()/2)/MyGdxGame.ppm,(rect.getY()+rect.getHeight()/2)/MyGdxGame.ppm);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2 / MyGdxGame.ppm,rect.getHeight()/2 / MyGdxGame.ppm);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
     }
 
 
@@ -137,6 +121,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
 
     }
 }

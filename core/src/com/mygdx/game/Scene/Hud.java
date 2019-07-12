@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-public class Hud {
+public class Hud implements Disposable{
     public Stage stage;
     private Viewport viewport;
 
@@ -60,4 +61,8 @@ public class Hud {
     }
 
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 }

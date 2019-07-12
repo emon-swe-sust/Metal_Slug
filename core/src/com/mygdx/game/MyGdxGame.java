@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
 public class MyGdxGame extends Game {
@@ -14,10 +15,13 @@ public class MyGdxGame extends Game {
 	public static final int v_hight = 205;
 	public static final float ppm = 100;
 
+	public MenuScreen menuScreen;
+
 	@Override
 	public void create () {
+		menuScreen = new MenuScreen(this);
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(menuScreen);
 	}
 
 	@Override

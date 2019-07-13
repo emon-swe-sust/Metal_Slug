@@ -45,7 +45,7 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
 
         maploader = new TmxMapLoader();
-        map = maploader.load("map.tmx");
+        map = maploader.load("Map/map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map,1/MyGdxGame.ppm);
 
         gamecam.position.set(gameport.getWorldWidth()/2.3f,gameport.getWorldHeight()/2.3f,0   );
@@ -93,6 +93,11 @@ public class PlayScreen implements Screen {
         update(delta);
         Gdx.gl.glClearColor(0,1,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        Vector2 vel = player.b2body.getLinearVelocity();
+        if(vel.y > 0){
+
+        }
 
         renderer.render();
 

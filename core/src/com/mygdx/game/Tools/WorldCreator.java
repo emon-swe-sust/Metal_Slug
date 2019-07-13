@@ -1,9 +1,13 @@
 package com.mygdx.game.Tools;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.MyGdxGame;
 
@@ -26,6 +30,12 @@ public class WorldCreator {
 
             fdef.shape = shape;
             body.createFixture(fdef);
+        }
+
+        for(MapObject object : map.getLayers().get(1).getObjects().getByType(PolygonMapObject.class)){
+
+            //For making polygone object
+            new TiledObjectUtil(world , object);
         }
     }
 }

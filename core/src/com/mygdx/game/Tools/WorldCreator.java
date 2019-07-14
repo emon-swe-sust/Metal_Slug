@@ -37,5 +37,10 @@ public class WorldCreator {
             //For making polygone object
             new TiledObjectUtil(world , object);
         }
+        for(MapObject object : map.getLayers().get(2).getObjects().getByType(PolygonMapObject.class)){
+
+            //For making polygone object
+            new TiledObjectUtil(world , object);
+        }
     }
 }

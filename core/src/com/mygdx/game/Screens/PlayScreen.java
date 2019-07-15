@@ -71,7 +71,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             game.setScreen(game.menuScreen);
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, 3f), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (player.b2body.getLinearVelocity().x <= 2))
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
@@ -79,24 +79,10 @@ public class PlayScreen implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
         }
 
-        /*if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(game.menuScreen);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, 2f), player.b2body.getWorldCenter(), true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (player.b2body.getLinearVelocity().x <= 2)) {
-            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -2))
-            player.b2body.applyLinearImpulse(new Vector2( -0.1f,0) , player.b2body.getWorldCenter(),true);
-        */
-
     public void update(float dt) {
-        //System.out.println("player "+ player.b2body.getPosition().x + " " + player.b2body.getPosition().y);
-        //System.out.printf("camera " + gamecam.position.x + " " + gamecam.position.y);
 
-        // Fixed camera
+        handleInput(dt);
+        player.update(dt);
 
         if(player.b2body.getPosition().x < 1.999f)
             gamecam.position.x=1.998f;
@@ -107,7 +93,7 @@ public class PlayScreen implements Screen {
 
 
         if(player.b2body.getPosition().y < 0.432f)
-            gamecam.position.y = 1.031f;
+            gamecam.position.y = 1.039f;
         else if(player.b2body.getPosition().y > .31f && player.b2body.getPosition().x < 33f)
             gamecam.position.y = 1.031f;
         else if(player.b2body.getPosition().x > 33 && player.b2body.getPosition().x < 35.69f) {
@@ -116,12 +102,7 @@ public class PlayScreen implements Screen {
                 gamecam.position.y = 1.031f;
         }
 
-
-        handleInput(dt);
-
         world.step(1/60f,6,2);
-
-        player.update(dt);
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -140,7 +121,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world,gamecam.combined);
+       // b2dr.render(world,gamecam.combined);
 
         game.batch.begin();
         player.draw(game.batch);

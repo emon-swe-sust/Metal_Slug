@@ -30,28 +30,14 @@ public class Player extends Sprite {
     private Texture jumping;
     private Texture throwing;
     private Texture ducking;
-   /* private TextureAtlas walking;
-    private TextureAtlas shooting;
-    private TextureAtlas jumping;
-    private TextureAtlas falling;
-    private TextureAtlas throwing;*/
-    //private TextureAtlas looking_up;
-    //private TextureAtlas shooting_up;
-    //private TextureAtlas crouching;
-    //private TextureAtlas crouch_shooting;
-    //private TextureAtlas crouch_throwing;
 
-    private  Animation<TextureRegion> idle_anim;
+    private Animation<TextureRegion> idle_anim;
     private Animation<TextureRegion> walk;
     private Animation<TextureRegion> shoot;
     private Animation<TextureRegion> jump;
     private Animation<TextureRegion> fall;
     private Animation<TextureRegion> granade;
     private Animation<TextureRegion> crouch;
-    //private Animation<TextureRegion> look_up;
-    //private Animation<TextureRegion> shoot_up;
-    //private Animation<TextureRegion> crouch_shoot;
-    //private Animation<TextureRegion> crouch_throw;
 
     public boolean Right;//, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
 
@@ -61,15 +47,7 @@ public class Player extends Sprite {
         currentState = State.Walk;
         previousState = State.Walk;
         elspsedTime = 0f;
-
         Right = true;
-        //Idle = true;
-        //Walk = false;
-        //In_air = false;
-        //Jump = false;
-        //Fall = false;
-        //Shoot = false;
-        //Throw = false;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -79,19 +57,6 @@ public class Player extends Sprite {
         jumping = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/jumping.png"));
         throwing = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/throwing.png"));
         ducking = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/ducking.png"));
-
-
-        /*walking = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Walking/walking.txt"));
-        shooting = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Shooting/shooting.txt"));
-        jumping = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Jump/jumping.txt"));
-        falling = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Jump/jumping.txt"));
-        throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Granade/throwing.txt"));*/
-        //looking_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up/up_looking.txt"));
-        //shooting_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up_shooting/Up_shooting.txt"));
-        //crouching = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch/crouching.txt"));
-        //crouch_shooting = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_shooting/crouch_shooting.txt"));
-        //crouch_throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_granade/crouching_granade.txt"));
-
 
         for(int i=0; i<5; i++)
             frames.add(new TextureRegion(idle, 52*i, 0, 52, 78));
@@ -128,17 +93,6 @@ public class Player extends Sprite {
         crouch = new Animation(1f/10f, frames);
         frames.clear();
 
-        /*walk = new Animation(1f/15f, walking.getRegions());
-        shoot = new Animation(1f/15f, shooting.getRegions());
-        jump = new Animation(1f/9f, jumping.getRegions());
-        fall = new Animation(1f/9f, jumping.getRegions());
-        granade = new Animation(1f/15f, throwing.getRegions());*/
-        //look_up = new Animation(1f/15f, looking_up.getRegions());
-        //shoot_up = new Animation(1f/15f, shooting_up.getRegions());
-        //crouch = new Animation(1f/15f, crouching.getRegions());
-        //crouch_shoot = new Animation(1f/15f, crouch_shooting.getRegions());
-        //crouch_throw = new Animation(1f/15f, crouch_throwing.getRegions());
-
         definePlayer();
 
         setBounds(0, 0, 52f, 78f);
@@ -146,55 +100,27 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        setBounds(0, 0, 52f, 78f);
-        setPosition(b2body.getPosition().x - getWidth(), b2body.getPosition().y - getHeight());
-        setRegion(getFrame(dt));
+        this.setBounds(0, 0, 52f, 78f);
+        this.setPosition(b2body.getPosition().x / MyGdxGame.ppm+180, (b2body.getPosition().y*50)*1.5f);
+        if(b2body.getPosition().y < .66f)
+            setY(getY()*.67f);
+        else if(b2body.getPosition().y > .68)
+            setY(getY()*1.1f);
+        if(b2body.getPosition().x > 31)
+            setY(getY()*.25f);
+        System.out.println(b2body.getPosition().x + " " + b2body.getPosition().y + " " + getX() + " " + getY());
+        this.setRegion(getFrame(dt));
     }
-
-    /*public  void inputHandle() {
-        if(Gdx.input.isKeyPressed(Input.Keys.X))
-            Shoot = true;
-    }*/
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
 
         TextureRegion region;
 
-        /*if(Jump) {
-            if(!Fall)
-                region = jump.getKeyFrame(elspsedTime, false);
-            else
-                region = fall.getKeyFrame(elspsedTime, false);
-        }
-        else if(Shoot)
-            region = shoot.getKeyFrame(elspsedTime, true);
-        else if(Throw)
-            region = granade.getKeyFrame(elspsedTime, false);
-        else if(Crouch) {
-            if(Shoot)
-                region = crouch_shoot.getKeyFrame(elspsedTime, true);
-            else if(Throw)
-                region = crouch_throw.getKeyFrame(elspsedTime, false);
-            else
-                region = crouch.getKeyFrame(elspsedTime, true);
-        }
-        else if(Up) {
-            if(Shoot)
-                region = shoot_up.getKeyFrame(elspsedTime, true);
-            else
-                region = look_up.getKeyFrame(elspsedTime, true);
-        }
-        else if(Walk)
-            region = walk.getKeyFrame(elspsedTime, true);
-        else if(Idle)
-            region = idle_anim.getKeyFrame(elspsedTime, true);
-        */
-
         switch (currentState) {
             //case Fall:
             case Jump:
-                region = jump.getKeyFrame(elspsedTime, false);
+                region = jump.getKeyFrame(elspsedTime, true);
                 break;
             case Fall:
                 region = fall.getKeyFrame(elspsedTime, true);
@@ -210,6 +136,7 @@ public class Player extends Sprite {
                 break;
             case Crouch:
                 region = crouch.getKeyFrame(elspsedTime, true);
+                break;
             default:
                 region = idle_anim.getKeyFrame(elspsedTime, true);
                 break;
@@ -227,15 +154,9 @@ public class Player extends Sprite {
 
         elspsedTime = currentState == previousState ? elspsedTime + dt : 0;
 
-        /*if(currentState == previousState)
-            elspsedTime += dt;
-        else
-            elspsedTime = 0;*/
-
         previousState = currentState;
 
         return region;
-
     }
 
     public State getState() {
@@ -258,13 +179,13 @@ public class Player extends Sprite {
 
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(500f / MyGdxGame.ppm,500f /MyGdxGame.ppm);
+        bdef.position.set(300f / MyGdxGame.ppm,200f /MyGdxGame.ppm);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(52f/2f, 78f/2f);
+        shape.setAsBox(52f/300, 78f/450);
         fdef.shape = shape;
         b2body.createFixture(fdef);
     }

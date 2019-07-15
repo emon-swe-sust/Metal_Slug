@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Man;
+import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.WorldCreator;
 
 public class PlayScreen implements Screen {
@@ -26,7 +27,8 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gameport;
     private Hud hud;
-    private Man player;
+    //private Man player;
+    private Player player;
 
     private TmxMapLoader maploader;
     private TiledMap map;
@@ -54,7 +56,8 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         new WorldCreator(world,map);
-        player = new Man(world);
+        //player = new Man(world);
+        player = new Player(world);
     }
 
 
@@ -64,7 +67,19 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            game.setScreen(game.menuScreen);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            player.b2body.applyLinearImpulse(new Vector2(0, 3f), player.b2body.getWorldCenter(), true);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (player.b2body.getLinearVelocity().x <= 2))
+            player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -2))
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+
+        /*if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(game.menuScreen);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
@@ -75,14 +90,14 @@ public class PlayScreen implements Screen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -2))
             player.b2body.applyLinearImpulse(new Vector2( -0.1f,0) , player.b2body.getWorldCenter(),true);
-
-    }
+        */
 
     public void update(float dt) {
         //System.out.println("player "+ player.b2body.getPosition().x + " " + player.b2body.getPosition().y);
         //System.out.printf("camera " + gamecam.position.x + " " + gamecam.position.y);
 
         // Fixed camera
+
         if(player.b2body.getPosition().x < 1.999f)
             gamecam.position.x=1.998f;
         else if(player.b2body.getPosition().x > 38.64f)
@@ -106,6 +121,8 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f,6,2);
 
+        player.update(dt);
+
         gamecam.update();
         renderer.setView(gamecam);
     }
@@ -124,6 +141,10 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         b2dr.render(world,gamecam.combined);
+
+        game.batch.begin();
+        player.draw(game.batch);
+        game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();

@@ -22,7 +22,7 @@ public class Player extends Sprite {
     public World world;
     public Body player_body;
 
-    Texture idle;
+    private Texture idle;
     private TextureAtlas walking;
     private TextureAtlas shooting;
     private TextureAtlas jumping;
@@ -34,18 +34,18 @@ public class Player extends Sprite {
     private TextureAtlas crouch_shooting;
     private TextureAtlas crouch_throwing;
 
-    Animation<TextureRegion> walk;
-    Animation<TextureRegion> shoot;
-    Animation<TextureRegion> jump;
-    Animation<TextureRegion> fall;
-    Animation<TextureRegion> granade;
-    Animation<TextureRegion> look_up;
-    Animation<TextureRegion> shoot_up;
-    Animation<TextureRegion> crouch;
-    Animation<TextureRegion> crouch_shoot;
-    Animation<TextureRegion> crouch_throw;
+    private Animation<TextureRegion> walk;
+    private Animation<TextureRegion> shoot;
+    private Animation<TextureRegion> jump;
+    private Animation<TextureRegion> fall;
+    private Animation<TextureRegion> granade;
+    private Animation<TextureRegion> look_up;
+    private Animation<TextureRegion> shoot_up;
+    private Animation<TextureRegion> crouch;
+    private Animation<TextureRegion> crouch_shoot;
+    private Animation<TextureRegion> crouch_throw;
 
-    boolean Right, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
+    public boolean Right, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
 
     public Player(World world, PlayScreen screen) {
 
@@ -71,10 +71,10 @@ public class Player extends Sprite {
         falling = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Jump/jumping.txt"));
         throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Granade/throwing.txt"));
         looking_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up/up_looking.txt"));
-        shooting_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up_shooting.txt"));
+        shooting_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up_shooting/Up_shooting.txt"));
         crouching = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch/crouching.txt"));
         crouch_shooting = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_shooting/crouch_shooting.txt"));
-        crouch_throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_granade/crouch_granade.txt"));
+        crouch_throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_granade/crouching_granade.txt"));
 
         walk = new Animation(1f/15f, walking.getRegions());
         shoot = new Animation(1f/15f, shooting.getRegions());
@@ -87,13 +87,15 @@ public class Player extends Sprite {
         crouch_shoot = new Animation(1f/15f, crouch_shooting.getRegions());
         crouch_throw = new Animation(1f/15f, crouch_throwing.getRegions());
 
+        definePlayer();
+
         setBounds(0, 0, 52f, 78f);
         setRegion(new TextureRegion(idle));
     }
 
     public void update(float deltaTime) {
-        setBounds(0, 0, 52f, 78f);
-        setPosition(player_body.getPosition().x - getWidth(), player_body.getPosition().y - getHeight());
+        //setBounds(0, 0, 52f, 78f);
+        setPosition(player_body.getPosition().x - 26f, player_body.getPosition().y - 39f);
         setRegion(getFrame(deltaTime));
     }
 

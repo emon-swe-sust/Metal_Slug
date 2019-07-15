@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="left-down" width="5" height="1" tilewidth="52" tileheight="78" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" source="Player/Walking/Walking.tsx"/>
+ <tileset firstgid="39" source="Player/Shooting/Shooting.tsx"/>
+ <tileset firstgid="50" source="Player/Granade/Granade.tsx"/>
+ <tileset firstgid="57" source="Player/Crouch/Crouch.tsx"/>
+ <tileset firstgid="64" source="Player/Jump/Jump.tsx"/>
+ <tileset firstgid="70" source="Player/Lollygagging/Lollygagging.tsx"/>
+ <layer id="6" name="Tile Layer 1" width="5" height="1">
+  <data encoding="base64" compression="zlib">
+   eJxzY2BgcAdiDyD2BGIvIAYAEMwBaQ==
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,96 @@
+walking.png
+size: 409, 42
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0000
+  rotate: false
+  xy: 0, 0
+  size: 31, 39
+  orig: 31, 39
+  offset: 0, 0
+  index: -1
+0001
+  rotate: false
+  xy: 31, 0
+  size: 31, 41
+  orig: 31, 41
+  offset: 0, 0
+  index: -1
+0002
+  rotate: false
+  xy: 62, 0
+  size: 31, 41
+  orig: 31, 41
+  offset: 0, 0
+  index: -1
+0003
+  rotate: false
+  xy: 93, 0
+  size: 32, 41
+  orig: 32, 41
+  offset: 0, 0
+  index: -1
+0004
+  rotate: false
+  xy: 125, 0
+  size: 32, 42
+  orig: 32, 42
+  offset: 0, 0
+  index: -1
+0005
+  rotate: false
+  xy: 157, 0
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+0006
+  rotate: false
+  xy: 189, 0
+  size: 27, 41
+  orig: 27, 41
+  offset: 0, 0
+  index: -1
+0007
+  rotate: false
+  xy: 216, 0
+  size: 29, 41
+  orig: 29, 41
+  offset: 0, 0
+  index: -1
+0008
+  rotate: false
+  xy: 245, 0
+  size: 30, 41
+  orig: 30, 41
+  offset: 0, 0
+  index: -1
+0009
+  rotate: false
+  xy: 275, 0
+  size: 32, 41
+  orig: 32, 41
+  offset: 0, 0
+  index: -1
+0010
+  rotate: false
+  xy: 307, 0
+  size: 35, 42
+  orig: 35, 42
+  offset: 0, 0
+  index: -1
+0011
+  rotate: false
+  xy: 342, 0
+  size: 36, 38
+  orig: 36, 38
+  offset: 0, 0
+  index: -1
+0012
+  rotate: false
+  xy: 378, 0
+  size: 31, 41
+  orig: 31, 41
+  offset: 0, 0
+  index: -1

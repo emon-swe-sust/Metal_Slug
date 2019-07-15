@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="left-down" width="5" height="1" tilewidth="31" tileheight="38" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="idle_tileset.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="5" height="1">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYAJiZiBmAWJWIAYAAKAAEA==
+  </data>
+ </layer>
+</map>

@@ -101,14 +101,17 @@ public class Player extends Sprite {
 
     public void update(float dt) {
         this.setBounds(0, 0, 52f, 78f);
-        this.setPosition(b2body.getPosition().x / MyGdxGame.ppm+180, (b2body.getPosition().y*50)*1.5f);
-        if(b2body.getPosition().y < .66f)
-            setY(getY()*.67f);
-        else if(b2body.getPosition().y > .68)
-            setY(getY()*1.1f);
-        if(b2body.getPosition().x > 31)
-            setY(getY()*.25f);
-        System.out.println(b2body.getPosition().x + " " + b2body.getPosition().y + " " + getX() + " " + getY());
+        {
+            // Portion for combination of b2dr and player
+            this.setPosition(b2body.getPosition().x / MyGdxGame.ppm + 180, (b2body.getPosition().y * 50) * 1.5f);
+            if (b2body.getPosition().y < .66f)
+                setY(getY() * .67f);
+            else if (b2body.getPosition().y > .68)
+                setY(getY() * 1.1f);
+            if (b2body.getPosition().x > 31)
+                setY(getY() * .25f);
+            // System.out.println(b2body.getPosition().x + " " + b2body.getPosition().y + " " + getX() + " " + getY());
+        }
         this.setRegion(getFrame(dt));
     }
 

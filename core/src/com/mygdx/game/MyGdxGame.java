@@ -13,7 +13,14 @@ public class MyGdxGame extends Game {
 	public SpriteBatch batch;
 	public static final int v_width = 400;
 	public static final int v_hight = 205;
-	public static final float ppm = 100;
+	public static final float ppm = 100f;
+
+	public static final short Ground_bit = 1;
+	public static final short Player_bit = 2;
+	public static final short Enemy_Bullet_Bit = 32;
+	public static final short Bullet_bit = 64;
+	public static final short Enemy_Bit = 128;
+	public static final short Object_Bit = 256;
 
 	public MenuScreen menuScreen;
 

@@ -223,7 +223,7 @@ public class Player extends Sprite {
                 break;
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
-                if (count < 5){
+                if (count == 1){
                     float bulletx = b2body.getPosition().x;
                     float bulletY = b2body.getPosition().y+.05f;
                     System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());

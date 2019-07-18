@@ -40,6 +40,9 @@ public class Sniper extends Sprite {
         this.x = x;
         this.y = y;
 
+        engage_distance = 220f;
+        shooting_distance = 100f;
+
         elspsedTime = 0f;
 
         isDead = false;
@@ -86,7 +89,8 @@ public class Sniper extends Sprite {
                 } else {
                     setRegion(running.getKeyFrame(elspsedTime, true));
                     sniper_body.applyAngularImpulse(-2f, true);
-                    setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
+                    //setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
+                    setPosition((sniper_body.getPosition().x   + getWidth() + 120), (sniper_body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
                 }
             }
             elspsedTime += dt;

@@ -63,7 +63,7 @@ public class PlayScreen implements Screen {
         gamecam.position.set(gameport.getWorldWidth()/2, gameport.getWorldHeight()/2, 0);
 
         world = new World(new Vector2(0,-5f),true);
-        //b2dr = new Box2DDebugRenderer();
+        b2dr = new Box2DDebugRenderer();
 
         new WorldCreator(world,map);
         bullets = new ArrayList<Bullet>();
@@ -162,7 +162,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        //b2dr.render(world,gamecam.combined);
+        b2dr.render(world,gamecam.combined);
         //game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
@@ -170,7 +170,7 @@ public class PlayScreen implements Screen {
             player.setY(player.getY()-55);
         }
         player.draw(game.batch);
-        //sniper.draw(game.batch);
+        sniper.draw(game.batch);
         //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
         game.batch.end();
 

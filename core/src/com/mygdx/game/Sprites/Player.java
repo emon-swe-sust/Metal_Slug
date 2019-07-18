@@ -118,7 +118,7 @@ public class Player extends Sprite {
 
         for(int i=0; i<10; i++)
             frames.add(new TextureRegion(shooting, 52*i, 0, 52, 78));
-        shoot = new Animation(1f/10f, frames);
+        shoot = new Animation(1f/15f, frames);
         frames.clear();
 
         for(int i=0; i<6; i++)
@@ -218,21 +218,30 @@ public class Player extends Sprite {
             case Fall:
                 region = fall.getKeyFrame(elspsedTime, true);
                 break;
-            case Throw:
+            case Throw: {
+
                 region = granade.getKeyFrame(elspsedTime, false);
                 break;
+            }
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
-                if (count == 1){
+
+                /*if (count == 1){
                     float bulletx = b2body.getPosition().x;
                     float bulletY = b2body.getPosition().y+.05f;
-                    System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());
+                    System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());*/
+
+                if (count == 2){
+                    float bulletx = b2body.getPosition().x;
+                    float bulletY = b2body.getPosition().y;
+                    //System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());
+                    
                     if (!Right)
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, -1.3f));
                     else
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, 1.3f));
                 }
-                else if(count > 20)
+                else if(count > 30)
                     count = 0;
 
                 count++;
@@ -290,11 +299,16 @@ public class Player extends Sprite {
             return State.Idle;
     }
 
-    //
+    //(400f + 52f/2f) / MyGdxGame.ppm
 
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
+
         bdef.position.set((200f + 52f/2f) / MyGdxGame.ppm,  (50f + 78f/2f) /MyGdxGame.ppm);
+
+        //bdef.position.set( 38.46f,  (100f + 78f/2f) /MyGdxGame.ppm);
+        //bdef.position.set((3200f + 52f/2f) / MyGdxGame.ppm, (100f + 78f/2f) / MyGdxGame.ppm);
+
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 

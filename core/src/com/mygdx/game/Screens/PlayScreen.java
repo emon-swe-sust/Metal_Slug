@@ -162,7 +162,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world,gamecam.combined);
+        /*b2dr.render(world,gamecam.combined);
         //game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
@@ -172,7 +172,7 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
         sniper.draw(game.batch);
         //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
-        game.batch.end();
+        game.batch.end();*/
 
         for(Bullet bullet : bullets) {
 //            bullet.setY(bullet.getY()+50);
@@ -185,6 +185,16 @@ public class PlayScreen implements Screen {
             }
             bullet.draw(game.batch);
         }
+
+        b2dr.render(world,gamecam.combined);
+        //game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        if(player.b2body.getPosition().x > 35.31){
+            player.setY(player.getY()-55);
+        }
+        player.draw(game.batch);
+        //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
+        game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
     }

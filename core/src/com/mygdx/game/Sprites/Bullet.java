@@ -31,6 +31,7 @@ public class Bullet extends Sprite {
     private float skel = 76;
     private float time = 1.99f;
     private boolean pos;
+    private boolean bpos;
 
     public Bullet(World world,PlayScreen screen,float posx,float posy, float velocity){
         this.screen = screen;
@@ -41,6 +42,7 @@ public class Bullet extends Sprite {
         this.world = world;
         pos = false;
         noob = true;
+        bpos = false;
 
         texture = new Texture("Sprites/Player/Spritesheets/temp/bullet.png");
         textureRegion = new TextureRegion(texture);
@@ -74,13 +76,33 @@ public class Bullet extends Sprite {
                 //setPosition(getX() - 1f, getY());
                 //b2bulletbody.setLinearVelocity(velocity, 0);
             // setPosition((b2bulletbody.getPosition().x * (100) - getWidth()/2 )/(b2bulletbody.getPosition().x), (b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-                if(noob){
-                   setX(getX() + 190);
+            float b=0;
+            if(!bpos)
+                setY((b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
+            else
+                setY(getY());
+            if(b2bulletbody.getPosition().x >= 35.5);
+            {
+                
+            }
+            System.out.println(b2bulletbody.getPosition().x );
+            if(noob){
+                    b = getX() + 190;
+                   setX(getX() + 200);
+                   if(b2bulletbody.getPosition().x >= 35.3) {
+                       setY(getY() - 52);
+                       bpos = true;
+                   }
+                    //System.out.println("NOOB" + getX());
                    noob = false;
                 }
+            if(velocity > 0)
                 setX(getX()+2.05f);
-                setY((b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-                System.out.println(" -- > " +b2bulletbody.getPosition().x);
+            else
+                setX(getX() - 2.05f);
+//                setY((b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
+
+                //System.out.println(" -- > " +b2bulletbody.getPosition().x);
 //                float baal = (b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2;
 //                float chal = b2bulletbody.getPosition().x * 93;
 //                if(pos){

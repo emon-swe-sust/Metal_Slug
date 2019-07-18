@@ -84,8 +84,8 @@ public class PlayScreen implements Screen {
             //player.b2body.setLinearVelocity(1f, 0f);
             player.b2body.applyLinearImpulse(new Vector2(0.2f, 0), player.b2body.getWorldCenter(), true);
         else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -1))
-            player.b2body.setLinearVelocity(-1f, 0f);
-//            player.b2body.applyLinearImpulse(new Vector2(-0.2f, 0), player.b2body.getWorldCenter(), true);
+            //player.b2body.setLinearVelocity(-1f, 0f);
+            player.b2body.applyLinearImpulse(new Vector2(-0.2f, 0), player.b2body.getWorldCenter(), true);
         }
 
         /*if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -129,7 +129,7 @@ public class PlayScreen implements Screen {
             gamecam.position.y = player.b2body.getPosition().y;
         }
 
-        System.out.println(">>> ----- " + gamecam.position.y + " " + player.b2body.getPosition().x);
+        //System.out.println(">>> ----- " + gamecam.position.y + " " + player.b2body.getPosition().x);
 
 
         handleInput(dt);
@@ -150,16 +150,6 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        //b2dr.render(world,gamecam.combined);
-        //game.batch.setProjectionMatrix(gamecam.combined);
-        game.batch.begin();
-        if(player.b2body.getPosition().x > 35.31){
-            player.setY(player.getY()-55);
-        }
-        player.draw(game.batch);
-        //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
-        game.batch.end();
-
         for(Bullet bullet : bullets) {
 //            bullet.setY(bullet.getY()+50);
 //            bullet.setX((bullet.getX())*80+360f);
@@ -171,6 +161,16 @@ public class PlayScreen implements Screen {
             }
             bullet.draw(game.batch);
         }
+
+        b2dr.render(world,gamecam.combined);
+        //game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.begin();
+        if(player.b2body.getPosition().x > 35.31){
+            player.setY(player.getY()-55);
+        }
+        player.draw(game.batch);
+        //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
+        game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
     }

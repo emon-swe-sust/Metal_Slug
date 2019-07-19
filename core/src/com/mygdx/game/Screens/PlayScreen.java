@@ -148,11 +148,14 @@ public class PlayScreen implements Screen, InputProcessor {
 
         //enemy
 
+
+        int sccor = 0;
         for(int i=0;i<snipers.size();i++){
             snipers.get(i).update(dt,player.b2body.getPosition().x);
             if(snipers.get(i).isDead){
                 snipers.remove(i);
                 i--;
+                sccor++;
             }
         }
 
@@ -166,7 +169,7 @@ public class PlayScreen implements Screen, InputProcessor {
             }
         }
 
-        hud.update(dt);
+        hud.update(sccor,MyGdxGame.life);
 
         gamecam.position.x= player.b2body.getPosition().x+80;
         if(player.b2body.getPosition().x > 3306 && player.b2body.getPosition().x < 3542) // 3306 3542)
@@ -178,6 +181,9 @@ public class PlayScreen implements Screen, InputProcessor {
     @java.lang.Override
     public void render(float delta) {
         update(delta);
+        if(MyGdxGame.life == 0){
+            game.setScreen(game.gameOverScreen);
+        }
 
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

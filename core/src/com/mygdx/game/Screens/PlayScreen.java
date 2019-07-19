@@ -1,35 +1,23 @@
 package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TideMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
-import com.mygdx.game.Tools.WorldContactListener;
 
 
-public class PlayScreen implements Screen {
+public class PlayScreen implements Screen, InputProcessor {
 
     private long countDt=0;
     private float timeCount=0;
@@ -49,7 +37,8 @@ public class PlayScreen implements Screen {
 
     public int k=1;
 
-
+    //movement using inputprocessor
+    boolean right, left, shoot, jump;
 
 
     private OrthographicCamera gamecam;
@@ -62,9 +51,6 @@ public class PlayScreen implements Screen {
     //Box2d variables
     private World world;
     private Box2DDebugRenderer b2dr;
-
-
-
 
 
     public PlayScreen(MyGdxGame game)
@@ -88,6 +74,10 @@ public class PlayScreen implements Screen {
 
         sniper = new Sniper(world, this, 600, 130);
 
+        right = left = jump = shoot = false;
+
+        Gdx.input.setInputProcessor(this);
+
     }
 
 
@@ -103,7 +93,7 @@ public class PlayScreen implements Screen {
         }
         countDt++;
         countDt=countDt%500;
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        /*if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
             game.setScreen(game.menuScreen);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
@@ -113,7 +103,15 @@ public class PlayScreen implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(50f,0),player.b2body.getWorldCenter(),true);
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x>=-50)
+            player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);*/
+
+
+        if(right && player.b2body.getLinearVelocity().x<=50)
+            player.b2body.applyLinearImpulse(new Vector2(50f,0),player.b2body.getWorldCenter(),true);
+
+        else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
+        //System.out.println(right + "ssds" + left);
 
     }
     public void update(float dt){
@@ -208,5 +206,67 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
 
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+
+        if(keycode == Input.Keys.ESCAPE)
+            game.setScreen(game.menuScreen);
+        else if(keycode == Input.Keys.SPACE)
+            player.b2body.applyLinearImpulse(new Vector2(0, 153f), player.b2body.getWorldCenter(), true);
+        else if(keycode == Input.Keys.RIGHT)
+            right = true;
+        else if(keycode == Input.Keys.LEFT)
+            left = true;
+
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+
+        if(keycode == Input.Keys.SPACE)
+            jump = false;
+        else if(keycode == Input.Keys.RIGHT) {
+            right = false;
+            player.b2body.setLinearVelocity(0f, player.b2body.getLinearVelocity().y);
+        }
+        else if(keycode == Input.Keys.LEFT) {
+            left = false;
+            player.b2body.setLinearVelocity(0f, player.b2body.getLinearVelocity().y);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

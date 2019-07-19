@@ -6,19 +6,24 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.MyGdxGame;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Sprites.Ground;
 
 public class TiledObjectUtil {
 
     public  TiledObjectUtil(World world, MapObject object){
-            Shape shape;
-            shape = createPolyline((PolygonMapObject) object);
-            Body body;
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            body = world.createBody(bodyDef);
-            body.createFixture(shape,1.0f);
-            shape.dispose();
+        Shape shape;
+        shape = createPolyline((PolygonMapObject) object);
+        Body body;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        body = world.createBody(bodyDef);
+        body.createFixture(shape,1.0f);
+        shape.dispose();
     }
 
     private static ChainShape createPolyline(PolygonMapObject polyline){
@@ -26,7 +31,7 @@ public class TiledObjectUtil {
         float [] vertices = polyline.getPolygon().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length/2];
         for(int i=0; i< worldVertices.length; i++){
-            worldVertices[i] = new Vector2(vertices[i*2]/ MyGdxGame.ppm, vertices[i*2 + 1]/ MyGdxGame.ppm);
+            worldVertices[i] = new Vector2(vertices[i*2], vertices[i*2 + 1]);
 
             //System.out.println(worldVertices[i]);
         }

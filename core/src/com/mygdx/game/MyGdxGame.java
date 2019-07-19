@@ -11,28 +11,32 @@ import com.mygdx.game.Screens.PlayScreen;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
-	public static final int v_width = 400;
-	public static final int v_hight = 205;
-	public static final float ppm = 100f;
-
-	public static final short Ground_bit = 1;
-	public static final short Player_bit = 2;
-	public static final short Enemy_Bullet_Bit = 32;
-	public static final short Bullet_bit = 64;
-	public static final short Enemy_Bit = 128;
-	public static final short Object_Bit = 256;
-
+	public static final int V_Height=205  ;
+	public static final int V_Width=350;
+	public static  final float PPM=100;
 	public MenuScreen menuScreen;
+
+	public static final short DEFAULT_BIT=1;
+	public static final short WARRIOR_BIT=2;
+	public static final short DOOR_BIT=4;//door bit / enemy bit
+	public static final short GROUND_BIT=8;
+	public static final short DESTROYED_BIT=16;
+
+
 
 	@Override
 	public void create () {
-		menuScreen = new MenuScreen(this);
 		batch = new SpriteBatch();
+		menuScreen = new MenuScreen(this);
 		setScreen(menuScreen);
 	}
 
 	@Override
 	public void render () {
+
 		super.render();
+
 	}
+
+
 }

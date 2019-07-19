@@ -5,63 +5,69 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-public class Hud implements Disposable{
+import java.util.*;
+
+public class Hud implements Disposable {
     public Stage stage;
     private Viewport viewport;
 
-    private Integer worldtimer;
-    private float timecount;
-    private Integer score;
+    private Integer WorldTimer;
+    private float timeCount;
+    private static Integer score;
+    private Label countdownLabel;
+    private static Label scoreLabel;
+    private Label timeLabel;
+    private Label levelLabel;
+    private Label worldLabel;
+    private Label marioLabel;
 
-    Label countdownlabel;
-    Label scorelabel;
-    Label timelabel;
-    Label levellabel;
-    Label worldlebel;
-    Label marioLabel;
-
-
-    public Hud(SpriteBatch sb)
-    {
-        worldtimer = 300;
-        timecount = 0;
-        score = 0;
-
-        viewport = new FitViewport(MyGdxGame.v_width,MyGdxGame.v_hight,new OrthographicCamera());
-
-        stage = new Stage(viewport,sb);
-
-        Table table = new Table();
+    public Hud(SpriteBatch sb){
+        WorldTimer =300;
+        timeCount = 0;
+        score=000000;
+        viewport =new FillViewport(MyGdxGame.V_Width,MyGdxGame.V_Height,new OrthographicCamera());
+        stage=new Stage(viewport,sb);
+        Table table= new Table();
         table.top();
         table.setFillParent(true);
+        countdownLabel= new Label(String.format("%03d",WorldTimer),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel=new Label(String.format("%06d",score),new Label.LabelStyle(new BitmapFont(), Color.RED));
+        timeLabel=new Label("TIME",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        countdownlabel = new Label(String.format("%03d", worldtimer) , new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scorelabel = new Label(String.format("%06dt", score) , new Label.LabelStyle(new BitmapFont(), Color.WHITE));;
-        timelabel = new Label("Time" , new Label.LabelStyle(new BitmapFont(), Color.WHITE));;
-        levellabel = new Label("1-1" , new Label.LabelStyle(new BitmapFont(), Color.WHITE));;
-        worldlebel = new Label("World", new Label.LabelStyle(new BitmapFont(), Color.WHITE));;
-        marioLabel = new Label("Mario" , new Label.LabelStyle(new BitmapFont(), Color.WHITE));;
-
+        levelLabel=new Label("1-1",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        worldLabel=new Label("WORLD",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        marioLabel=  new Label("Warrior",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         table.add(marioLabel).expandX().padTop(10);
-        table.add(worldlebel).expandX().padTop(10);
-        table.add(timelabel).expandX().padTop(10);
+        table.add(worldLabel).expandX().padTop(10);
+        table.add(timeLabel).expandX().padTop(10);
         table.row();
-        table.add(scorelabel).expandX();
-        table.add(levellabel).expandX();
-        table.add(countdownlabel).expandX();
-
+        table.add(scoreLabel).expandX();
+        table.add(levelLabel).expandX();
+        table.add(countdownLabel).expandX();
         stage.addActor(table);
+
+    }
+    public  void update(float dt){
+        timeCount+=dt;
+        if(timeCount>=1){
+            WorldTimer--;
+            countdownLabel.setText(String.format("%03d",WorldTimer));
+            timeCount=0;
+        }
+    }
+    public static void addScore(int value){
+        scoreLabel.setText(String.format("%06d",score));
+        score+=value;
     }
 
-
-    @Override
+    @java.lang.Override
     public void dispose() {
         stage.dispose();
     }

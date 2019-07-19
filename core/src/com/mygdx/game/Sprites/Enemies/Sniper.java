@@ -93,7 +93,7 @@ public class Sniper extends Sprite {
                     setRegion(running.getKeyFrame(elspsedTime, true));
                     sniper_body.applyAngularImpulse(-2f, true);
                     //setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
-                    setPosition((sniper_body.getPosition().x   + getWidth() + 120), (sniper_body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
+                    setPosition((sniper_body.getPosition().x/4), (sniper_body.getPosition().y)/4);
                 }
             }
             elspsedTime += dt;
@@ -114,16 +114,13 @@ public class Sniper extends Sprite {
     public void defineSniper() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set((x + 48f/2f) / MyGdxGame.ppm, (y + 47f/2f) / MyGdxGame.ppm);
+        bdef.position.set((x + 48f/2f), (y + 47f/2f));
         bdef.type = BodyDef.BodyType.DynamicBody;
         sniper_body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        fdef.filter.categoryBits = MyGdxGame.Enemy_Bit;
-        fdef.filter.maskBits = MyGdxGame.Player_bit | MyGdxGame.Bullet_bit | MyGdxGame.Ground_bit | MyGdxGame.Object_Bit;
-
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(40/2 / MyGdxGame.ppm, 40/2 / MyGdxGame.ppm);
+        shape.setAsBox(10, 20);
         fdef.shape = shape;
         sniper_body.createFixture(fdef);
     }

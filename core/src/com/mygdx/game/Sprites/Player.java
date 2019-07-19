@@ -52,7 +52,7 @@ public class Player extends Sprite {
     private Animation<TextureRegion> fall;
     private Animation<TextureRegion> granade;
     private Animation<TextureRegion> crouch;
-    ArrayList<Bullet> bullets;
+    public ArrayList<Bullet> bullets;
 
     public TextureRegion temp;
 
@@ -64,16 +64,17 @@ public class Player extends Sprite {
     //private Animation<TextureRegion> crouch_throw;
 
     public boolean Right;//, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
-    public  int count = 0;
+    public int count = 0;
 
-    public Player(World world,PlayScreen screen,ArrayList<Bullet>bullets) {
+    public Player(World world,PlayScreen screen) {//,ArrayList<Bullet>bullets) {
 
         this.world = world;
         this.screen = screen;
-        this.bullets = bullets;
+        //this.bullets = bullets;
         currentState = State.Walk;
         previousState = State.Walk;
         elspsedTime = 0f;
+        bullets = new ArrayList<Bullet>();
 
         Right = true;
         //Idle = true;
@@ -162,8 +163,8 @@ public class Player extends Sprite {
         //setBounds(0, 0, 52f/2, 78f/2);
         //setPosition((b2body.getPosition().x) , (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
 
-        setPosition((b2body.getPosition().x   + getWidth() + 120), (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
-        //setPosition((b2body.getPosition().x * MyGdxGame.ppm) - getWidth()/2, (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
+        //setPosition((b2body.getPosition().x   + getWidth() + 120), (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
+        setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
         setRegion(getFrame(dt));
 
         //temp = getFrame(dt);
@@ -232,14 +233,18 @@ public class Player extends Sprite {
                     System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());*/
 
                 if (count == 2){
-                    float bulletx = b2body.getPosition().x;
+                    float bulletx = b2body.getPosition().x + 5;
                     float bulletY = b2body.getPosition().y;
+
                     //System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());
-                    
-                    if (!Right)
+
+                    /*if (!Right)
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, -1.3f));
+                    else*/
+                    if(Right)
+                        bullets.add(new Bullet(world, screen, bulletx, bulletY, 250f));
                     else
-                        bullets.add(new Bullet(world, screen, bulletx, bulletY, 1.3f));
+                        bullets.add(new Bullet(world, screen, bulletx, bulletY, -250f));
                 }
                 else if(count > 30)
                     count = 0;
@@ -304,7 +309,8 @@ public class Player extends Sprite {
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
 
-        bdef.position.set((200f + 52f/2f) / MyGdxGame.ppm,  (50f + 78f/2f) /MyGdxGame.ppm);
+        //bdef.position.set((200f + 52f/2f) / MyGdxGame.ppm,  (50f + 78f/2f) /MyGdxGame.ppm);
+        bdef.position.set(60f + 52/2, 100f + 78/2);
 
         //bdef.position.set( 38.46f,  (100f + 78f/2f) /MyGdxGame.ppm);
         //bdef.position.set((3200f + 52f/2f) / MyGdxGame.ppm, (100f + 78f/2f) / MyGdxGame.ppm);
@@ -313,22 +319,23 @@ public class Player extends Sprite {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        fdef.filter.categoryBits = MyGdxGame.Player_bit;
-        fdef.filter.maskBits = MyGdxGame.Enemy_Bit | MyGdxGame.Enemy_Bit | MyGdxGame.Ground_bit | MyGdxGame.Object_Bit;
+        /*fdef.filter.categoryBits= Demo.WARRIOR_BIT;
+        fdef.filter.maskBits=Demo.DEFAULT_BIT | Demo.GROUND_BIT | Demo.DOOR_BIT;*/
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(40/2 / MyGdxGame.ppm, 40/2 / MyGdxGame.ppm);
+        //shape.setAsBox(40/2 / MyGdxGame.ppm, 40/2 / MyGdxGame.ppm);
+        shape.setAsBox(10, 20);
         fdef.shape = shape;
         b2body.createFixture(fdef);
     }
 
 
 
-    public  void  playerBulletHit(){
+    /*public  void  playerBulletHit(){
         bullethitcount++;
         if(bullethitcount > 20){
             settodestroy = true;
         }
-    }
+    }*/
 }
 

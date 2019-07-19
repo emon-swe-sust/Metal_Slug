@@ -66,62 +66,8 @@ public class Bullet extends Sprite {
             setRegion(new Texture("Sprites/Player/Spritesheets/temp/EmptyBullet.png"));
             statetime = 0;
         } else if (!destroyed) {
-            //setPosition(b2bulletbody.getPosition().x - getWidth() / 2, b2bulletbody.getPosition().y - getHeight() / 2f);
-            // Portion for combination of b2dr and player
-
-            //System.out.println(getX() + " " + (b2bulletbody.getPosition().x - getWidth()/2) + " " + getY() + (b2bulletbody.getPosition().y - getHeight()/2)
-            // setRegion(textureRegion);
-
-            //if(!right) {
-                //setPosition(getX() - 1f, getY());
-                //b2bulletbody.setLinearVelocity(velocity, 0);
-            // setPosition((b2bulletbody.getPosition().x * (100) - getWidth()/2 )/(b2bulletbody.getPosition().x), (b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-            float b=0;
-            if(!bpos)
-                setY((b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-            else
-                setY(getY());
-            if(b2bulletbody.getPosition().x >= 35.5);
-            {
-                
-            }
-            System.out.println(b2bulletbody.getPosition().x );
-            if(noob){
-                    b = getX() + 190;
-                   setX(getX() + 200);
-                   if(b2bulletbody.getPosition().x >= 35.3) {
-                       setY(getY() - 52);
-                       bpos = true;
-                   }
-                    //System.out.println("NOOB" + getX());
-                   noob = false;
-                }
-            if(velocity > 0)
-                setX(getX()+2.05f);
-            else
-                setX(getX() - 2.05f);
-//                setY((b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-
-                //System.out.println(" -- > " +b2bulletbody.getPosition().x);
-//                float baal = (b2bulletbody.getPosition().y * MyGdxGame.ppm) - getHeight()/2;
-//                float chal = b2bulletbody.getPosition().x * 93;
-//                if(pos){
-//                    setPosition(chal-skel*100,baal);
-//                }
-
-           // System.out.println("---> " + b2bulletbody.getPosition().x);
-            }
-            //else
-                //setPosition(getX() + 1f,getY());
-           // System.out.println(b2bulletbody.getPosition().x + " " + getX());
-            /*f (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-                System.out.println("bal");
-                if (!right)
-                    b2bulletbody.setTransform(b2bulletbody, 0);
-                else
-                    b2bulletbody.applyLinearImpulse(new Vector2(100f, 0), b2bulletbody.getWorldCenter(), true);
-            }*/
-        //}
+            setPosition(b2bulletbody.getPosition().x - getWidth() / 2, b2bulletbody.getPosition().y - getHeight() / 2f);
+           }
 
         if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
             System.out.println("--> " + b2bulletbody.getPosition().x);
@@ -141,13 +87,12 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(4/ MyGdxGame.ppm);
+        shape.setRadius(1);
 
         fdef.shape = shape;
         fdef.restitution = 0;
         fdef.friction = 0;
-        fdef.filter.categoryBits = MyGdxGame.Enemy_Bit;
-        fdef.filter.maskBits = MyGdxGame.Enemy_Bit;
+
         b2bulletbody.createFixture(fdef);
     }
 

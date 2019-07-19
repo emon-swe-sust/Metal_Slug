@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
@@ -27,7 +28,7 @@ public class MenuScreen implements Screen {
     public  MenuScreen(MyGdxGame game){
         this.game = game;
         gamecam = new OrthographicCamera();
-        gameport = new StretchViewport(MyGdxGame.v_width / MyGdxGame.ppm * 1.4f,MyGdxGame.v_hight / MyGdxGame.ppm*1.4f,gamecam);
+        gameport = new FitViewport(MyGdxGame.V_Width ,MyGdxGame.V_Height ,gamecam);
         gamecam.position.set(gameport.getWorldWidth()/2.3f,gameport.getWorldHeight()/2.3f,0   );
         batch = new SpriteBatch();
 
@@ -103,7 +104,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         handleinput();
-        Gdx.gl.glClearColor(0,1,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.begin();

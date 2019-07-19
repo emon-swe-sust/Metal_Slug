@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.*;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Bullet;
+import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Man;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.WorldCreator;
@@ -31,8 +32,11 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gameport;
     private Hud hud;
-    //private Man player;
+    //player;
     private Player player;
+
+    //enemy
+    private Sniper sniper;
 
     private TmxMapLoader maploader;
     private TiledMap map;
@@ -48,7 +52,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(MyGdxGame game)
     {
         this.game = game;
-        gamecam = new OrthographicCamera();
+        gamecam = new OrthographicCamera(MyGdxGame.v_width, MyGdxGame.v_hight);
         gameport = new StretchViewport(MyGdxGame.v_width / MyGdxGame.ppm,MyGdxGame.v_hight / MyGdxGame.ppm,gamecam);
         hud = new Hud(game.batch);
 
@@ -56,7 +60,7 @@ public class PlayScreen implements Screen {
         map = maploader.load("Map/map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map,1/MyGdxGame.ppm);
 
-        gamecam.position.set(gameport.getWorldWidth()/2.3f,gameport.getWorldHeight()/2.3f,0   );
+        gamecam.position.set(gameport.getWorldWidth()/2, gameport.getWorldHeight()/2, 0);
 
         world = new World(new Vector2(0,-5f),true);
         b2dr = new Box2DDebugRenderer();
@@ -64,7 +68,8 @@ public class PlayScreen implements Screen {
         new WorldCreator(world,map);
         bullets = new ArrayList<Bullet>();
         //player = new Man(world);
-        player = new Player(world,this,bullets);
+        player = new Player(world,this, bullets);
+        sniper = new Sniper(world, this, 900f, 100f);
     }
 
 
@@ -78,7 +83,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             game.setScreen(game.menuScreen);
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, 3f), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (player.b2body.getLinearVelocity().x <= 1))
             //player.b2body.setLinearVelocity(1f, 0f);
@@ -96,10 +101,15 @@ public class PlayScreen implements Screen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && (player.b2body.getLinearVelocity().x <= 2)) {
             player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -2))
+            player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+    }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && (player.b2body.getLinearVelocity().x >= -2))
             player.b2body.applyLinearImpulse(new Vector2( -0.1f,0) , player.b2body.getWorldCenter(),true);
         */
+
 
     public void update(float dt) {
         //System.out.println("player "+ player.b2body.getPosition().x + " " + player.b2body.getPosition().y);
@@ -138,6 +148,8 @@ public class PlayScreen implements Screen {
 
         player.update(dt);
 
+        sniper.update(dt, player.b2body.getPosition().x);
+
         gamecam.update();
         renderer.setView(gamecam);
     }
@@ -145,10 +157,22 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(0,1,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
+
+        /*b2dr.render(world,gamecam.combined);
+        //game.batch.setProjectionMatrix(gamecam.combined);
+
+        game.batch.begin();
+        if(player.b2body.getPosition().x > 35.31){
+            player.setY(player.getY()-55);
+        }
+        player.draw(game.batch);
+        sniper.draw(game.batch);
+        //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
+        game.batch.end();*/
 
         for(Bullet bullet : bullets) {
 //            bullet.setY(bullet.getY()+50);
@@ -169,6 +193,7 @@ public class PlayScreen implements Screen {
             player.setY(player.getY()-55);
         }
         player.draw(game.batch);
+        sniper.draw(game.batch);
         //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
         game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);

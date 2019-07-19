@@ -163,6 +163,7 @@ public class Player extends Sprite {
         //setPosition((b2body.getPosition().x) , (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
 
         setPosition((b2body.getPosition().x   + getWidth() + 120), (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
+        //setPosition((b2body.getPosition().x * MyGdxGame.ppm) - getWidth()/2, (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
         setRegion(getFrame(dt));
 
         //temp = getFrame(dt);
@@ -224,10 +225,17 @@ public class Player extends Sprite {
             }
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
+
+                /*if (count == 1){
+                    float bulletx = b2body.getPosition().x;
+                    float bulletY = b2body.getPosition().y+.05f;
+                    System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());*/
+
                 if (count == 2){
                     float bulletx = b2body.getPosition().x;
                     float bulletY = b2body.getPosition().y;
                     //System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());
+                    
                     if (!Right)
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, -1.3f));
                     else
@@ -295,8 +303,12 @@ public class Player extends Sprite {
 
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
+
+        bdef.position.set((200f + 52f/2f) / MyGdxGame.ppm,  (50f + 78f/2f) /MyGdxGame.ppm);
+
         //bdef.position.set( 38.46f,  (100f + 78f/2f) /MyGdxGame.ppm);
-        bdef.position.set((3200f + 52f/2f) / MyGdxGame.ppm, (100f + 78f/2f) / MyGdxGame.ppm);
+        //bdef.position.set((3200f + 52f/2f) / MyGdxGame.ppm, (100f + 78f/2f) / MyGdxGame.ppm);
+
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -310,6 +322,8 @@ public class Player extends Sprite {
         b2body.createFixture(fdef);
     }
 
+
+
     public  void  playerBulletHit(){
         bullethitcount++;
         if(bullethitcount > 20){
@@ -317,3 +331,4 @@ public class Player extends Sprite {
         }
     }
 }
+

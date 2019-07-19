@@ -150,6 +150,10 @@ public class PlayScreen implements Screen, InputProcessor {
 
         for(int i=0;i<snipers.size();i++){
             snipers.get(i).update(dt,player.b2body.getPosition().x);
+            if(snipers.get(i).isDead){
+                snipers.remove(i);
+                i--;
+            }
         }
 
         for(int i = 0;i < player.bullets.size() ; i++){

@@ -39,7 +39,7 @@ public class Sniper extends Sprite {
     float elspsedTime;
     float deathTime;
     float count;
-    boolean isDead;
+    public boolean isDead;
     public ArrayList<EnemyBullet> enemybullets;
 
     public Sniper(World world, PlayScreen screen, float x, float y) {
@@ -106,7 +106,7 @@ public class Sniper extends Sprite {
                         //shoot 1 bullet
                         shoot();
                         System.out.println("boom");
-                    } else if(count > 400) {
+                    } else if(count > 500) {
                         count = 0;
                     }
                     count++;
@@ -130,7 +130,10 @@ public class Sniper extends Sprite {
             region = (dying.getKeyFrame(elspsedTime, false));
             deathTime += dt;
         }
+        if(deathTime == 0)
         setRegion(region);
+        else
+            world.destroyBody(sniper_body);
     }
 
     public void shoot() {

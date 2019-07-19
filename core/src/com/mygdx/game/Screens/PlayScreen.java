@@ -87,7 +87,7 @@ public class PlayScreen implements Screen {
         // world.setContactListener(new WorldContactListener());
 
         sniper = new Sniper(world, this, 900, 130);
-
+        world.setContactListener(new WorldContactListener());
     }
 
 
@@ -114,7 +114,6 @@ public class PlayScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
-
     }
     public void update(float dt){
         handleInput(dt);
@@ -171,7 +170,7 @@ public class PlayScreen implements Screen {
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
-
+        System.out.println(" -- > " + player.bullets.size());
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();

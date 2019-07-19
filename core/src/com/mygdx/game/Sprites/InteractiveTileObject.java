@@ -21,13 +21,6 @@ public abstract class InteractiveTileObject {
         FixtureDef fdef=new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-       /* bdef.type=BodyDef.BodyType.StaticBody;
-        bdef.position.set((bounds.getX()+bounds.getWidth())/2,bounds.getY()+bounds.getHeight()/2);
-        body =world.createBody(bdef);
-
-        shape.setAsBox(bounds.getWidth()/2,bounds.getHeight()/2);
-        fdef.shape=shape;
-        body.createFixture(fdef);*/
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(bounds.getX()+bounds.getWidth()/2,bounds.getY()+bounds.getHeight()/2);
         body = world.createBody(bdef);

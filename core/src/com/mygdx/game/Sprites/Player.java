@@ -129,10 +129,6 @@ public class Player extends Sprite {
         //System.out.println(getX() + " | " + (b2body.getPosition().x * MyGdxGame.ppm - 52f/2));
     }*/
 
-    public  void inputHandle() {
-        if(Gdx.input.isKeyPressed(Input.Keys.X))
-            Shoot = true;
-    }
 
     public void update(float dt, boolean spacePressed) {
         if(settodestroy){

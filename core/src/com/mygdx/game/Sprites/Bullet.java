@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
 public class Bullet extends Sprite {
@@ -65,15 +66,20 @@ public class Bullet extends Sprite {
             destroyed = true;
             setRegion(new Texture("Sprites/Player/Spritesheets/temp/EmptyBullet.png"));
             statetime = 0;
+
         } else if (!destroyed) {
             setPosition(b2bulletbody.getPosition().x - getWidth() / 2, b2bulletbody.getPosition().y - getHeight() / 2f);
            }
 
+        /*if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
+            System.out.println("--> " + b2bulletbody.getPosition().x);
+
         if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
             //System.out.println("--> " + b2bulletbody.getPosition().x);
+
             remove = true;
             settodestroy = true;
-        }
+        }*/
     }
 
     public void definebullet(){
@@ -87,13 +93,15 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(1);
+        shape.setRadius(10);
 
+        fdef.filter.categoryBits = MyGdxGame.BULLET_BIT;
+        fdef.filter.maskBits = MyGdxGame.GROUND_BIT | MyGdxGame.ENEMY_BIT;
         fdef.shape = shape;
         fdef.restitution = 0;
         fdef.friction = 0;
 
-        b2bulletbody.createFixture(fdef);
+        b2bulletbody.createFixture(fdef).setUserData(this);
     }
 
     public void draw(Batch batch){
@@ -105,6 +113,8 @@ public class Bullet extends Sprite {
     }
 
     public  void  hitenemy(){
+        System.out.println("BAAL");
+        destroyed = false;
         settodestroy = true;
     }
 }

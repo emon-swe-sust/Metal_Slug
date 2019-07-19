@@ -17,6 +17,8 @@ import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
 import com.mygdx.game.Tools.WorldContactListener;
 
+import java.util.ArrayList;
+
 
 public class PlayScreen implements Screen, InputProcessor {
 
@@ -35,6 +37,8 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean cam = false;
 
     public Sniper sniper;
+    public Sniper sniper1;
+    public ArrayList<Sniper> snipers;
 
     public int k=1;
 
@@ -74,16 +78,37 @@ public class PlayScreen implements Screen, InputProcessor {
         // world.setContactListener(new WorldContactListener());
 
         sniper = new Sniper(world, this, 900, 130);
+        sniper1 = new Sniper(world,this,1200,130);
+        snipers = new ArrayList<Sniper>();
+
+        snipers.add(new Sniper(world, this, 390, 130));
+        snipers.add(new Sniper(world, this, 520, 130));
+        snipers.add(new Sniper(world, this, 665, 130));
+//        snipers.add(new Sniper(world, this, 750, 130));
+//        snipers.add(new Sniper(world, this, 883, 130));
+//        snipers.add(new Sniper(world, this, 900, 130));
+        snipers.add(new Sniper(world, this, 1030, 130));
+        snipers.add(new Sniper(world, this, 1190, 130));
+        snipers.add(new Sniper(world, this, 1300, 130));
+        snipers.add(new Sniper(world, this, 1480, 130));
+        snipers.add(new Sniper(world, this, 1660, 130));
+        snipers.add(new Sniper(world, this, 1842, 130));
+        snipers.add(new Sniper(world, this, 1900, 130));
+        snipers.add(new Sniper(world, this, 2150, 130));
+        snipers.add(new Sniper(world, this, 2285, 130));
+        snipers.add(new Sniper(world, this, 2500, 130));
+        snipers.add(new Sniper(world, this, 2700, 130));
+        snipers.add(new Sniper(world, this, 2885, 130));
+        snipers.add(new Sniper(world, this, 3000, 130));
+        snipers.add(new Sniper(world, this, 3250, 130));
+
         world.setContactListener(new WorldContactListener());
 
         //sniper = new Sniper(world, this, 600, 130);
-
         right = left = jump = shoot = false;
 
         Gdx.input.setInputProcessor(this);
-
     }
-
 
     @java.lang.Override
     public void show() {
@@ -114,13 +139,19 @@ public class PlayScreen implements Screen, InputProcessor {
         player.update(dt);
 
         //enemy
-        sniper.update(dt, player.b2body.getPosition().x);
+
+        for(int i=0;i<snipers.size();i++){
+            snipers.get(i).update(dt,player.b2body.getPosition().x);
+        }
 
         for(int i = 0;i < player.bullets.size() ; i++){
             player.bullets.get(i).update(dt);
         }
-        for(int i=0;i<sniper.enemybullets.size();i++){
-            sniper.enemybullets.get(i).update(dt);
+
+        for(int j=0;j<snipers.size();j++) {
+            for (int i = 0; i < snipers.get(j).enemybullets.size(); i++) {
+                snipers.get(j).enemybullets.get(i).update(dt);
+            }
         }
 
         hud.update(dt);
@@ -148,10 +179,14 @@ public class PlayScreen implements Screen, InputProcessor {
         game.batch.begin();
 
         player.draw(game.batch);
-        sniper.draw(game.batch);
+        for (int i=0;i<snipers.size();i++){
+            snipers.get(i).draw(game.batch);
+        }
+        for(int j=0;j<snipers.size();j++) {
+            for (int i = 0; i < snipers.get(j).enemybullets.size(); i++)
+                snipers.get(j).enemybullets.get(i).draw(game.batch);
+        }
 
-        for(int i=0;i<sniper.enemybullets.size();i++)
-            sniper.enemybullets.get(i).draw(game.batch);
         System.out.println(sniper.enemybullets.size());
 
         for(int i = 0 ; i < player.bullets.size() ; i++){

@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Sprites.Ground;
 
 public class TiledObjectUtil {
@@ -22,7 +23,12 @@ public class TiledObjectUtil {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         body = world.createBody(bodyDef);
-        body.createFixture(shape,1.0f);
+        FixtureDef fdef = new FixtureDef();
+        fdef.filter.categoryBits = MyGdxGame.GROUND_BIT;
+        fdef.filter.maskBits = MyGdxGame.BULLET_BIT | MyGdxGame.PLAYER_BIT | MyGdxGame.ENEMYBULLET_BIT | MyGdxGame.ENEMY_BIT ;
+        fdef.shape = shape;
+        body.createFixture(fdef).setUserData(this);
+
         shape.dispose();
     }
 
@@ -38,7 +44,6 @@ public class TiledObjectUtil {
 
         ChainShape chainShape = new ChainShape();
         chainShape.createChain(worldVertices);
-
         return chainShape;
     }
 }

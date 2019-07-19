@@ -142,6 +142,7 @@ public class Sniper extends Sprite {
         BodyDef bdef = new BodyDef();
         bdef.position.set((x + 48f/2f), (y + 47f/2f));
         bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.gravityScale = 20;
         sniper_body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();

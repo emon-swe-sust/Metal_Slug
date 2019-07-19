@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="236">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="241">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32" tilecount="1270" columns="127">
   <image source="mission-1.png" width="4088" height="336"/>
  </tileset>
@@ -46,9 +46,6 @@
   </object>
   <object id="199" x="1640" y="265">
    <polygon points="0,0 25,-4 42.5,-0.5 24,-2.5"/>
-  </object>
-  <object id="200" x="0" y="110">
-   <polygon points="0,0 304.5,-0.5 3137,-0.5 3181.5,-12 3284,-37 3424.5,-74 3527,-74 3527,-98.5 3620,-99 3620,-113 4214.5,-113 4211,-110.5 0.5,-109"/>
   </object>
   <object id="207" x="3563.33" y="184" width="523" height="52"/>
   <object id="209" x="-5" y="287" width="654" height="70"/>

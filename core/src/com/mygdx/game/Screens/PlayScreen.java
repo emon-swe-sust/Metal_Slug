@@ -15,6 +15,7 @@ import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
+import com.mygdx.game.Tools.WorldContactListener;
 
 
 public class PlayScreen implements Screen, InputProcessor {
@@ -32,6 +33,7 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean isHurt=false;
     public boolean enemyisHurt=false;
     public boolean cam = false;
+    public boolean spacePressed = false;
 
     public Sniper sniper;
 
@@ -115,6 +117,9 @@ public class PlayScreen implements Screen, InputProcessor {
         else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
 
+        if(player.b2body.getLinearVelocity().y == 0)
+            spacePressed = false;
+
         //System.out.println(right + "ssds" + left);
 
 
@@ -126,7 +131,7 @@ public class PlayScreen implements Screen, InputProcessor {
         world.step(1/60f,6,2);
 
         //player
-        player.update(dt);
+        player.update(dt, spacePressed);
 
         //enemy
         sniper.update(dt, player.b2body.getPosition().x);
@@ -220,8 +225,10 @@ public class PlayScreen implements Screen, InputProcessor {
 
         if(keycode == Input.Keys.ESCAPE)
             game.setScreen(game.menuScreen);
-        else if(keycode == Input.Keys.SPACE)
+        else if(keycode == Input.Keys.SPACE) {
             player.b2body.applyLinearImpulse(new Vector2(0, 153f), player.b2body.getWorldCenter(), true);
+            spacePressed = true;
+        }
         else if(keycode == Input.Keys.RIGHT)
             right = true;
         else if(keycode == Input.Keys.LEFT)
@@ -233,9 +240,7 @@ public class PlayScreen implements Screen, InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
 
-        if(keycode == Input.Keys.SPACE)
-            jump = false;
-        else if(keycode == Input.Keys.RIGHT) {
+        if(keycode == Input.Keys.RIGHT) {
             right = false;
             player.b2body.setLinearVelocity(0f, player.b2body.getLinearVelocity().y);
         }

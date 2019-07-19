@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
         bullets = new ArrayList<Bullet>();
         //player = new Man(world);
         player = new Player(world,this, bullets);
-        sniper = new Sniper(world, this, 400f, 60f);
+        sniper = new Sniper(world, this, 900f, 100f);
     }
 
 
@@ -193,6 +193,7 @@ public class PlayScreen implements Screen {
             player.setY(player.getY()-55);
         }
         player.draw(game.batch);
+        sniper.draw(game.batch);
         //game.batch.draw(player.temp, player.getX(), player.getY(), player.getOriginX(), player.getOriginY(), player.getWidth(), player.getHeight(), player.getScaleX(), player.getScaleY(), player.getRotation());
         game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);

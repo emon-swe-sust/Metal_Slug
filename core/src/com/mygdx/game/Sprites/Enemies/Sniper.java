@@ -73,6 +73,9 @@ public class Sniper extends Sprite {
 
         defineSniper();
 
+        setBounds(0, 0, 48f, 47f);
+        setRegion(new TextureRegion(sniper, 0, 47*2, 48, 47));
+
     }
 
     public void update(float dt, float player_body_x) {

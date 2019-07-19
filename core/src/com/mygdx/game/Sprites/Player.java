@@ -117,7 +117,24 @@ public class Player extends Sprite {
         setRegion(new TextureRegion(idle, 0, 0, 52, 78));
     }
 
-    public void update(float dt) {
+    /*public void update(float dt, boolean spacePressed) {
+        //setBounds(0, 0, 52f/2, 78f/2);
+        //setPosition((b2body.getPosition().x) , (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
+
+        //setPosition((b2body.getPosition().x   + getWidth() + 120), (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
+        setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
+        setRegion(getFrame(dt, spacePressed));
+
+        //temp = getFrame(dt);
+        //System.out.println(getX() + " | " + (b2body.getPosition().x * MyGdxGame.ppm - 52f/2));
+    }*/
+
+    public  void inputHandle() {
+        if(Gdx.input.isKeyPressed(Input.Keys.X))
+            Shoot = true;
+    }
+
+    public void update(float dt, boolean spacePressed) {
         if(settodestroy){
             game.setScreen(game.menuScreen);
         }
@@ -130,11 +147,11 @@ public class Player extends Sprite {
         }
         else
             setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
-        setRegion(getFrame(dt));
+        setRegion(getFrame(dt, spacePressed));
     }
 
-    public TextureRegion getFrame(float dt) {
-        currentState = getState();
+    public TextureRegion getFrame(float dt, boolean spacePressed) {
+        currentState = getState(spacePressed);
 
         TextureRegion region;
 
@@ -193,9 +210,9 @@ public class Player extends Sprite {
         return region;
     }
 
-    public State getState() {
+    public State getState(boolean spacePressed) {
 
-        if(b2body.getLinearVelocity().y > 0)
+        if(b2body.getLinearVelocity().y > 0 && spacePressed)
             return  State.Jump;
         else if(b2body.getLinearVelocity().y < 0)
             return State.Fall;

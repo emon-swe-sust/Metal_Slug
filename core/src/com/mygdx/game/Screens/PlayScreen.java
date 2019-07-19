@@ -15,6 +15,7 @@ import com.mygdx.game.Scene.Hud;
 import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
+import com.mygdx.game.Tools.WorldContactListener;
 
 
 public class PlayScreen implements Screen, InputProcessor {
@@ -69,7 +70,7 @@ public class PlayScreen implements Screen, InputProcessor {
         b2dr= new Box2DDebugRenderer();
         new B2WorldCreator(world,map);
         //player= new Warrior(world,this);
-        player = new Player(world, this);
+        player = new Player(world, this,game);
         // world.setContactListener(new WorldContactListener());
 
         sniper = new Sniper(world, this, 900, 130);
@@ -96,17 +97,6 @@ public class PlayScreen implements Screen, InputProcessor {
         }
         countDt++;
         countDt=countDt%500;
-        /*if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
-            game.setScreen(game.menuScreen);
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
-            player.b2body.applyLinearImpulse(new Vector2(0, 153f), player.b2body.getWorldCenter(), true);
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x<=50)
-            player.b2body.applyLinearImpulse(new Vector2(50f,0),player.b2body.getWorldCenter(),true);
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x>=-50)
-            player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);*/
 
 
         if(right && player.b2body.getLinearVelocity().x<=50)
@@ -115,7 +105,6 @@ public class PlayScreen implements Screen, InputProcessor {
         else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
 
-        //System.out.println(right + "ssds" + left);
     }
     public void update(float dt){
         handleInput(dt);
@@ -127,11 +116,11 @@ public class PlayScreen implements Screen, InputProcessor {
         //enemy
         sniper.update(dt, player.b2body.getPosition().x);
 
-        //System.out.println(enemy.b2body.getPosition().x);
-        // System.out.println(player.b2body.getPosition().x);
-
         for(int i = 0;i < player.bullets.size() ; i++){
             player.bullets.get(i).update(dt);
+        }
+        for(int i=0;i<sniper.enemybullets.size();i++){
+            sniper.enemybullets.get(i).update(dt);
         }
 
         hud.update(dt);
@@ -139,11 +128,6 @@ public class PlayScreen implements Screen, InputProcessor {
         gamecam.position.x= player.b2body.getPosition().x+80;
         if(player.b2body.getPosition().x > 3306 && player.b2body.getPosition().x < 3542) // 3306 3542)
             gamecam.position.y = player.b2body.getPosition().y+40;
-
-
-        //System.out.println(player.b2body.getPosition().x);
-
-
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -164,15 +148,18 @@ public class PlayScreen implements Screen, InputProcessor {
         game.batch.begin();
 
         player.draw(game.batch);
-
         sniper.draw(game.batch);
 
-        game.batch.end();
+        for(int i=0;i<sniper.enemybullets.size();i++)
+            sniper.enemybullets.get(i).draw(game.batch);
+        System.out.println(sniper.enemybullets.size());
 
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
         System.out.println(" -- > " + player.bullets.size());
+        game.batch.end();
+
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();

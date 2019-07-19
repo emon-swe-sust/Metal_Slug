@@ -154,7 +154,7 @@ public class Player extends Sprite {
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
 
-                if (count == 2){
+                if (count == 26){
                     float bulletx = b2body.getPosition().x + 5;
                     float bulletY = b2body.getPosition().y;
 
@@ -237,4 +237,3 @@ public class Player extends Sprite {
         }
     }
 }
-

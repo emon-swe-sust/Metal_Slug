@@ -11,6 +11,7 @@ import com.mygdx.game.Sprites.Ground;
 
 public class B2WorldCreator {
     public B2WorldCreator(World world , TiledMap map){
+
         BodyDef bdef =new BodyDef();
         PolygonShape shape =new PolygonShape();
         FixtureDef fdef = new FixtureDef();

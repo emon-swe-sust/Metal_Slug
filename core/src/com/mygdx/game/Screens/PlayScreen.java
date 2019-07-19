@@ -88,6 +88,9 @@ public class PlayScreen implements Screen {
 
         sniper = new Sniper(world, this, 900, 130);
         world.setContactListener(new WorldContactListener());
+
+        //sniper = new Sniper(world, this, 600, 130);
+
     }
 
 
@@ -139,7 +142,7 @@ public class PlayScreen implements Screen {
             gamecam.position.y = player.b2body.getPosition().y+40;
 
 
-        System.out.println(player.b2body.getPosition().x);
+        //System.out.println(player.b2body.getPosition().x);
 
 
 

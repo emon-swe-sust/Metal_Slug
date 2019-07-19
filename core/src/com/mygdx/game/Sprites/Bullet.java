@@ -70,7 +70,7 @@ public class Bullet extends Sprite {
            }
 
         if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
-            System.out.println("--> " + b2bulletbody.getPosition().x);
+            //System.out.println("--> " + b2bulletbody.getPosition().x);
             remove = true;
             settodestroy = true;
         }

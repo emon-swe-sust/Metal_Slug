@@ -1,5 +1,6 @@
 package com.mygdx.game.Sprites;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -34,16 +35,6 @@ public class Player extends Sprite {
     private Texture jumping;
     private Texture throwing;
     private Texture ducking;
-   /* private TextureAtlas walking;
-    private TextureAtlas shooting;
-    private TextureAtlas jumping;
-    private TextureAtlas falling;
-    private TextureAtlas throwing;*/
-    //private TextureAtlas looking_up;
-    //private TextureAtlas shooting_up;
-    //private TextureAtlas crouching;
-    //private TextureAtlas crouch_shooting;
-    //private TextureAtlas crouch_throwing;
 
     private  Animation<TextureRegion> idle_anim;
     private Animation<TextureRegion> walk;
@@ -55,21 +46,19 @@ public class Player extends Sprite {
     public ArrayList<Bullet> bullets;
 
     public TextureRegion temp;
+    public MyGdxGame game;
 
     private int bullethitcount;
     private boolean settodestroy,destroyed;
-    //private Animation<TextureRegion> look_up;
-    //private Animation<TextureRegion> shoot_up;
-    //private Animation<TextureRegion> crouch_shoot;
-    //private Animation<TextureRegion> crouch_throw;
-
     public boolean Right;//, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
     public int count = 0;
+    float up=-1;
 
-    public Player(World world,PlayScreen screen) {//,ArrayList<Bullet>bullets) {
+    public Player(World world, PlayScreen screen, MyGdxGame game) {//,ArrayList<Bullet>bullets) {
 
         this.world = world;
         this.screen = screen;
+        this.game = game;
         //this.bullets = bullets;
         currentState = State.Walk;
         previousState = State.Walk;
@@ -77,14 +66,6 @@ public class Player extends Sprite {
         bullets = new ArrayList<Bullet>();
 
         Right = true;
-        //Idle = true;
-        //Walk = false;
-        //In_air = false;
-        //Jump = false;
-        //Fall = false;
-        //Shoot = false;
-        //Throw = false;
-        //Crouch = false;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -94,18 +75,6 @@ public class Player extends Sprite {
         jumping = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/jumping.png"));
         throwing = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/throwing.png"));
         ducking = new Texture(Gdx.files.internal("Sprites/Player/Spritesheets/temp/ducking.png"));
-
-        /*walking = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Walking/walking.txt"));
-        shooting = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Shooting/shooting.txt"));
-        jumping = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Jump/jumping.txt"));
-        falling = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Jump/jumping.txt"));
-        throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Granade/throwing.txt"));*/
-        //looking_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up/up_looking.txt"));
-        //shooting_up = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Up_shooting/Up_shooting.txt"));
-        //crouching = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch/crouching.txt"));
-        //crouch_shooting = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_shooting/crouch_shooting.txt"));
-        //crouch_throwing = new TextureAtlas(Gdx.files.internal("Sprites/Player/Spritesheets/Player/Crouch_granade/crouching_granade.txt"));
-
 
         for(int i=0; i<5; i++)
             frames.add(new TextureRegion(idle, 52*i, 0, 52, 78));
@@ -142,24 +111,13 @@ public class Player extends Sprite {
         crouch = new Animation(1f/10f, frames);
         frames.clear();
 
-        /*walk = new Animation(1f/15f, walking.getRegions());
-        shoot = new Animation(1f/15f, shooting.getRegions());
-        jump = new Animation(1f/9f, jumping.getRegions());
-        fall = new Animation(1f/9f, jumping.getRegions());
-        granade = new Animation(1f/15f, throwing.getRegions());*/
-        //look_up = new Animation(1f/15f, looking_up.getRegions());
-        //shoot_up = new Animation(1f/15f, shooting_up.getRegions());
-        //crouch = new Animation(1f/15f, crouching.getRegions());
-        //crouch_shoot = new Animation(1f/15f, crouch_shooting.getRegions());
-        //crouch_throw = new Animation(1f/15f, crouch_throwing.getRegions());
-
         definePlayer();
 
         setBounds(0, 0, 52f, 78f);
         setRegion(new TextureRegion(idle, 0, 0, 52, 78));
     }
 
-    public void update(float dt, boolean spacePressed) {
+    /*public void update(float dt, boolean spacePressed) {
         //setBounds(0, 0, 52f/2, 78f/2);
         //setPosition((b2body.getPosition().x) , (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
 
@@ -169,7 +127,7 @@ public class Player extends Sprite {
 
         //temp = getFrame(dt);
         //System.out.println(getX() + " | " + (b2body.getPosition().x * MyGdxGame.ppm - 52f/2));
-    }
+    }*/
 
     /*public  void inputHandle() {
         if(Gdx.input.isKeyPressed(Input.Keys.X))
@@ -178,38 +136,26 @@ public class Player extends Sprite {
 
     public TextureRegion getFrame(float dt, boolean spacePressed) {
         currentState = getState(spacePressed);
+    public void update(float dt) {
+        if(settodestroy){
+            game.setScreen(game.menuScreen);
+        }
+        if(up>=0){
+            setY(getY()-5f);
+            if(up >= 1.5)
+                up = -1;
+            else
+                up+=dt;
+        }
+        else
+            setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
+        setRegion(getFrame(dt));
+    }
+
+    public TextureRegion getFrame(float dt) {
+        currentState = getState();
 
         TextureRegion region;
-
-        /*if(Jump) {
-            if(!Fall)
-                region = jump.getKeyFrame(elspsedTime, false);
-            else
-                region = fall.getKeyFrame(elspsedTime, false);
-        }
-        else if(Shoot)
-            region = shoot.getKeyFrame(elspsedTime, true);
-        else if(Throw)
-            region = granade.getKeyFrame(elspsedTime, false);
-        else if(Crouch) {
-            if(Shoot)
-                region = crouch_shoot.getKeyFrame(elspsedTime, true);
-            else if(Throw)
-                region = crouch_throw.getKeyFrame(elspsedTime, false);
-            else
-                region = crouch.getKeyFrame(elspsedTime, true);
-        }
-        else if(Up) {
-            if(Shoot)
-                region = shoot_up.getKeyFrame(elspsedTime, true);
-            else
-                region = look_up.getKeyFrame(elspsedTime, true);
-        }
-        else if(Walk)
-            region = walk.getKeyFrame(elspsedTime, true);
-        else if(Idle)
-            region = idle_anim.getKeyFrame(elspsedTime, true);
-        */
 
         switch (currentState) {
             //case Fall:
@@ -227,20 +173,10 @@ public class Player extends Sprite {
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
 
-                /*if (count == 1){
-                    float bulletx = b2body.getPosition().x;
-                    float bulletY = b2body.getPosition().y+.05f;
-                    System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());*/
-
                 if (count == 2){
                     float bulletx = b2body.getPosition().x + 5;
                     float bulletY = b2body.getPosition().y;
 
-                    //System.out.println(bulletx + " " + getX() + " " + bulletY + " " + getY());
-
-                    /*if (!Right)
-                        bullets.add(new Bullet(world, screen, bulletx, bulletY, -1.3f));
-                    else*/
                     if(Right)
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, 250f));
                     else
@@ -248,7 +184,6 @@ public class Player extends Sprite {
                 }
                 else if(count > 30)
                     count = 0;
-
                 count++;
                 break;
             }
@@ -261,7 +196,6 @@ public class Player extends Sprite {
             default:
                 region = idle_anim.getKeyFrame(elspsedTime, true);
                 break;
-
         }
 
         if((b2body.getLinearVelocity().x < 0 || !Right) && !region.isFlipX()) {
@@ -272,18 +206,10 @@ public class Player extends Sprite {
             region.flip(true, false);
             Right = true;
         }
-
         elspsedTime = currentState == previousState ? elspsedTime + dt : 0;
 
-        /*if(currentState == previousState)
-            elspsedTime += dt;
-        else
-            elspsedTime = 0;*/
-
         previousState = currentState;
-
         return region;
-
     }
 
     public State getState(boolean spacePressed) {
@@ -304,38 +230,30 @@ public class Player extends Sprite {
             return State.Idle;
     }
 
-    //(400f + 52f/2f) / MyGdxGame.ppm
-
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
-
-        //bdef.position.set((200f + 52f/2f) / MyGdxGame.ppm,  (50f + 78f/2f) /MyGdxGame.ppm);
         bdef.position.set(60f + 52/2, 100f + 78/2);
-
-        //bdef.position.set( 38.46f,  (100f + 78f/2f) /MyGdxGame.ppm);
-        //bdef.position.set((3200f + 52f/2f) / MyGdxGame.ppm, (100f + 78f/2f) / MyGdxGame.ppm);
 
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        /*fdef.filter.categoryBits= Demo.WARRIOR_BIT;
-        fdef.filter.maskBits=Demo.DEFAULT_BIT | Demo.GROUND_BIT | Demo.DOOR_BIT;*/
 
         PolygonShape shape = new PolygonShape();
-        //shape.setAsBox(40/2 / MyGdxGame.ppm, 40/2 / MyGdxGame.ppm);
         shape.setAsBox(10, 20);
+        fdef.filter.categoryBits = MyGdxGame.PLAYER_BIT;
+        fdef.filter.maskBits = MyGdxGame.ENEMYBULLET_BIT | MyGdxGame.GROUND_BIT;
         fdef.shape = shape;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
     }
 
-
-
-    /*public  void  playerBulletHit(){
+    public  void  life(){
         bullethitcount++;
-        if(bullethitcount > 20){
+        up=0;
+        setPosition(b2body.getPosition().x - getWidth()/4, 500);
+        if(bullethitcount == 3){
             settodestroy = true;
         }
-    }*/
+    }
 }
 

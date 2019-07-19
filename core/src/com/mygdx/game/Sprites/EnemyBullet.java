@@ -13,12 +13,12 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
-public class Bullet extends Sprite {
+public class EnemyBullet extends Sprite {
     World world;
     public Texture texture;
     public TextureRegion textureRegion;
     public //boolean right;
-    float velocity;
+            float velocity;
     public boolean settodestroy;
     public boolean destroyed;
     public boolean noob;
@@ -34,7 +34,7 @@ public class Bullet extends Sprite {
     private boolean pos;
     private boolean bpos;
 
-    public Bullet(World world,PlayScreen screen,float posx,float posy, float velocity){
+    public EnemyBullet(World world,PlayScreen screen,float posx,float posy, float velocity){
         this.screen = screen;
         //this.right = right;
         this.velocity = velocity;
@@ -69,17 +69,7 @@ public class Bullet extends Sprite {
 
         } else if (!destroyed) {
             setPosition(b2bulletbody.getPosition().x - getWidth() / 2, b2bulletbody.getPosition().y - getHeight() / 2f);
-           }
-
-        /*if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
-            System.out.println("--> " + b2bulletbody.getPosition().x);
-
-        if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
-            //System.out.println("--> " + b2bulletbody.getPosition().x);
-
-            remove = true;
-            settodestroy = true;
-        }*/
+        }
     }
 
     public void definebullet(){
@@ -95,8 +85,8 @@ public class Bullet extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(3);
 
-        fdef.filter.categoryBits = MyGdxGame.BULLET_BIT;
-        fdef.filter.maskBits = MyGdxGame.GROUND_BIT | MyGdxGame.ENEMY_BIT;
+        fdef.filter.categoryBits = MyGdxGame.ENEMYBULLET_BIT;
+        fdef.filter.maskBits = MyGdxGame.GROUND_BIT | MyGdxGame.PLAYER_BIT;
         fdef.shape = shape;
         fdef.restitution = 0;
         fdef.friction = 0;

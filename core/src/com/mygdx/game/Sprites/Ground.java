@@ -10,6 +10,7 @@ public class Ground extends InteractiveTileObject {
     public Ground(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
         //fixture.setUserData(this);
+        fixture.setUserData(this);
         setCategoryFilter(MyGdxGame.GROUND_BIT);
     }
 

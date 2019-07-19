@@ -72,7 +72,10 @@ public class PlayScreen implements Screen, InputProcessor {
         player = new Player(world, this);
         // world.setContactListener(new WorldContactListener());
 
-        sniper = new Sniper(world, this, 600, 130);
+        sniper = new Sniper(world, this, 900, 130);
+        world.setContactListener(new WorldContactListener());
+
+        //sniper = new Sniper(world, this, 600, 130);
 
         right = left = jump = shoot = false;
 
@@ -111,8 +114,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
         else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
-        //System.out.println(right + "ssds" + left);
 
+        //System.out.println(right + "ssds" + left);
     }
     public void update(float dt){
         handleInput(dt);
@@ -169,7 +172,7 @@ public class PlayScreen implements Screen, InputProcessor {
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
-
+        System.out.println(" -- > " + player.bullets.size());
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();

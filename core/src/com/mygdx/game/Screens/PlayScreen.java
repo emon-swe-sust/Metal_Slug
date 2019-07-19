@@ -117,6 +117,9 @@ public class PlayScreen implements Screen, InputProcessor {
 
         //System.out.println(right + "ssds" + left);
 
+
+
+        //System.out.println(right + "ssds" + left);
     }
     public void update(float dt){
         handleInput(dt);

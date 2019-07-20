@@ -34,12 +34,16 @@ public class Sniper extends Sprite {
     float x, y;
     int kill;
     public boolean bo = false;
+
     float engage_distance;
     float shooting_distance;
     float elspsedTime;
     float deathTime;
     float count;
+
     public boolean isDead;
+    public boolean dead = false;
+
     public ArrayList<EnemyBullet> enemybullets;
 
     public Sniper(World world, PlayScreen screen, float x, float y) {
@@ -62,7 +66,7 @@ public class Sniper extends Sprite {
 
         sniper_shoot = new Texture("Sprites/Enemies/Sniper/shoot.png");
         sniper_run = new Texture("Sprites/Enemies/Sniper/run.png");
-        sniper_die = new Texture("Sprites/Enemies/Sniper/die.png");
+        sniper_die = new Texture("Sprites/Enemies/Sniper/die2.png");
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -78,9 +82,9 @@ public class Sniper extends Sprite {
         shooting = new Animation<TextureRegion>(1f/10f, frames);
         frames.clear();
 
-        for(int i=0; i<12; i++)
+        for(int i=0; i<13; i++)
             frames.add(new TextureRegion(sniper_die, i*48, 0, 48, 47));
-        dying = new Animation<TextureRegion>(1f/1f, frames);
+        dying = new Animation<TextureRegion>(1f/15f, frames);
         frames.clear();
 
         defineSniper();
@@ -125,23 +129,12 @@ public class Sniper extends Sprite {
             elspsedTime += dt;
         }
         else {
-            region = (dying.getKeyFrame(elspsedTime, false));
-/*<<<<<<< HEAD
-            if(dying.getKeyFrameIndex(elspsedTime) == 12) {
-
+            if(dying.getKeyFrameIndex(elspsedTime) == 12 && !dead) {
+                dead = true;
                 world.destroyBody(sniper_body);
-                bo = true;
             }
-            deathTime += dt;
-        }
-        if(deathTime < 1)
-             setRegion(region);
-        else {
-            world.destroyBody(sniper_body);
-            bo = true;
-        }
-//tashfee will solve this
-=======*/
+            region = (dying.getKeyFrame(elspsedTime, false));
+
             elspsedTime += dt;
             System.out.println(dying.getKeyFrameIndex(elspsedTime));
             //deathTime += dt;
@@ -179,7 +172,10 @@ public class Sniper extends Sprite {
 
     public void die(){
          MyGdxGame.score+=13;
-         isDead = true;
+         if(isDead == false) {
+             isDead = true;
+             elspsedTime = 0f;
+         }
     }
 
 }

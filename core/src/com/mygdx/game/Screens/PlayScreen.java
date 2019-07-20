@@ -164,7 +164,7 @@ public class PlayScreen implements Screen, InputProcessor {
         int sccor = 0;
         for(int i=0;i<snipers.size();i++){
             snipers.get(i).update(dt,player.b2body.getPosition().x);
-            if(snipers.get(i).isDead && snipers.get(i).bo){
+            if(snipers.get(i).isDead && snipers.get(i).dead){
                 snipers.remove(i);
                 i--;
                 sccor++;

@@ -65,6 +65,7 @@ public class Sniper extends Sprite {
         sniper_die = new Texture("Sprites/Enemies/Sniper/die.png");
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
+
         enemybullets = new ArrayList<EnemyBullet>();
 
         for(int i=0; i<12; i++)
@@ -79,7 +80,7 @@ public class Sniper extends Sprite {
 
         for(int i=0; i<12; i++)
             frames.add(new TextureRegion(sniper_die, i*48, 0, 48, 47));
-        dying = new Animation<TextureRegion>(1f/3f, frames);
+        dying = new Animation<TextureRegion>(1f/1f, frames);
         frames.clear();
 
         defineSniper();
@@ -97,16 +98,19 @@ public class Sniper extends Sprite {
         if(!isDead) {
             if (sniper_body.getPosition().x - player_body_x < engage_distance) {
                 if (sniper_body.getPosition().x - player_body_x < shooting_distance) {
+
                     sniper_body.setLinearVelocity(0, sniper_body.getLinearVelocity().y);
                     region = (shooting.getKeyFrame(elspsedTime, true));
                     if (count == 2) {
                         //shoot 1 bullet
                         shoot();
+
                     } else if(count > 500) {
                         count = 0;
                     }
                     count++;
                 } else {
+
                     region = (running.getKeyFrame(elspsedTime, true));
                     sniper_body.applyLinearImpulse(new Vector2(-50f,0),sniper_body.getWorldCenter(),true);
                     //setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
@@ -122,6 +126,7 @@ public class Sniper extends Sprite {
         }
         else {
             region = (dying.getKeyFrame(elspsedTime, false));
+/*<<<<<<< HEAD
             if(dying.getKeyFrameIndex(elspsedTime) == 12) {
 
                 world.destroyBody(sniper_body);
@@ -135,6 +140,19 @@ public class Sniper extends Sprite {
             world.destroyBody(sniper_body);
             bo = true;
         }
+//tashfee will solve this
+=======*/
+            elspsedTime += dt;
+            System.out.println(dying.getKeyFrameIndex(elspsedTime));
+            //deathTime += dt;
+        }
+
+        setRegion(region);
+        /*if(deathTime == 0)
+        setRegion(region);
+        else
+            world.destroyBody(sniper_body);*/
+//>>>>>>> dd1fdcce0e425c52087165217f896581c1dbcc6b
     }
 
     public void shoot() {

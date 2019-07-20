@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -40,6 +41,8 @@ public class PlayScreen implements Screen, InputProcessor {
     public Sniper sniper1;
     public ArrayList<Sniper> snipers;
 
+    public Sound play;
+
     public int k=1;
 
     //movement using inputprocessor
@@ -62,6 +65,8 @@ public class PlayScreen implements Screen, InputProcessor {
     {
         this.game=game;
 
+        play = Gdx.audio.newSound(Gdx.files.internal("Sound/stage-1.mp3"));
+        long id  = play.loop();
         gamecam= new OrthographicCamera();
         gamePort= new FitViewport(MyGdxGame.V_Width,MyGdxGame.V_Height,gamecam);
         hud=new Hud(game.batch);
@@ -152,7 +157,7 @@ public class PlayScreen implements Screen, InputProcessor {
         int sccor = 0;
         for(int i=0;i<snipers.size();i++){
             snipers.get(i).update(dt,player.b2body.getPosition().x);
-            if(snipers.get(i).isDead){
+            if(snipers.get(i).isDead && snipers.get(i).bo){
                 snipers.remove(i);
                 i--;
                 sccor++;
@@ -205,12 +210,11 @@ public class PlayScreen implements Screen, InputProcessor {
                 snipers.get(j).enemybullets.get(i).draw(game.batch);
         }
 
-        System.out.println(sniper.enemybullets.size());
+
 
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
-        System.out.println(" -- > " + player.bullets.size());
         game.batch.end();
 
 
@@ -248,14 +252,17 @@ public class PlayScreen implements Screen, InputProcessor {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
-
+        play.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
 
-        if(keycode == Input.Keys.ESCAPE)
+        if(keycode == Input.Keys.ESCAPE) {
+            play.stop();
+            MenuScreen.menu.play();
             game.setScreen(game.menuScreen);
+        }
         else if(keycode == Input.Keys.SPACE) {
             player.b2body.applyLinearImpulse(new Vector2(0, 153f), player.b2body.getWorldCenter(), true);
             spacePressed = true;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
 import java.awt.*;
@@ -47,6 +49,7 @@ public class Player extends Sprite {
 
     public TextureRegion temp;
     public MyGdxGame game;
+    public Sound diee;
 
     private int bullethitcount;
     private boolean settodestroy,destroyed;
@@ -60,6 +63,7 @@ public class Player extends Sprite {
         this.world = world;
         this.screen = screen;
         this.game = game;
+        diee = Gdx.audio.newSound(Gdx.files.internal("Sound/dead.mp3"));
 
         //this.bullets = bullets;
         currentState = State.Walk;
@@ -218,8 +222,10 @@ public class Player extends Sprite {
             return State.Fall;
         else if(b2body.getLinearVelocity().x != 0)
             return State.Walk;
-        else if(Gdx.input.isKeyPressed(Input.Keys.Z))
+        else if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            MenuScreen.click.play();
             return State.Shoot;
+        }
         else if(Gdx.input.isKeyPressed(Input.Keys.X))
             return State.Throw;
         else if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
@@ -246,6 +252,7 @@ public class Player extends Sprite {
     }
 
     public  void  life(){
+        diee.play();
         if (stand == 0) {
             bullethitcount++;
             MyGdxGame.life--;

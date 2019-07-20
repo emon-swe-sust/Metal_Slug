@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="241">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="239">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32" tilecount="1270" columns="127">
   <image source="mission-1.png" width="4088" height="336"/>
  </tileset>
@@ -19,7 +19,7 @@
 </data>
  </layer>
  <objectgroup id="7" name="Ground">
-  <object id="77" x="954" y="233.333" width="132"/>
+  <object id="77" x="943" y="235.333" width="163" height="6"/>
   <object id="80" x="1185.67" y="231.333" width="113.667" height="6.66667"/>
   <object id="81" x="1367" y="232.667" width="143.333" height="7.33333"/>
   <object id="90" x="2086" y="242" width="52.6667" height="3.33333e-6"/>
@@ -28,12 +28,14 @@
   <object id="98" x="2402.67" y="193.333" width="136" height="10.6667"/>
   <object id="100" x="2694" y="192.667" width="51.3333" height="11.3333"/>
   <object id="138" x="-1.33333" y="111.333" width="4" height="185.333"/>
-  <object id="153" x="4044" y="1" width="34" height="172"/>
+  <object id="140" x="672" y="315" width="1128" height="5"/>
+  <object id="145" x="1881" y="314" width="1437" height="6"/>
+  <object id="153" x="3972" y="1" width="93" height="172"/>
   <object id="170" x="1822" y="306.5">
    <polyline points="0,0 0,0.5"/>
   </object>
-  <object id="172" x="1792" y="319.914">
-   <polygon points="0,0 20,-16.4138 29,-28.7241 41.5,-32.2414 58.5,-33.4138 68.5,-28.7241 81.5,-14.069 94,-6.44828 117.5,0.586207 12.5,0"/>
+  <object id="172" x="1792" y="315">
+   <polygon points="0,0 20,-14 29,-24.5 41.5,-27.5 58.5,-28.5 68.5,-24.5 81.5,-12 94,-5.5 117.5,0.5 12.5,0"/>
   </object>
   <object id="179" x="2377.5" y="203">
    <polygon points="0,0 14.5,-3 25,-9.5 25,-1.5 10.5,-0.5"/>
@@ -41,31 +43,25 @@
   <object id="193" x="2161" y="194">
    <polygon points="0,0 37,-0.5 6.5,2"/>
   </object>
-  <object id="198" x="3951" y="175">
-   <polygon points="0,0 23.5,-88.5 84.5,-2.5"/>
-  </object>
   <object id="199" x="1640" y="265">
    <polygon points="0,0 25,-4 42.5,-0.5 24,-2.5"/>
   </object>
-  <object id="207" x="3563.33" y="184" width="523" height="52"/>
-  <object id="209" x="-5" y="287" width="654" height="70"/>
-  <object id="210" x="858" y="271" width="62"/>
-  <object id="211" x="1128" y="272" width="45"/>
+  <object id="207" x="3552" y="178" width="499" height="56"/>
+  <object id="209" x="-5" y="287" width="677" height="32"/>
   <object id="212" x="1542" y="272" width="37"/>
-  <object id="213" x="2032.33" y="277.333" width="32"/>
   <object id="214" x="2602" y="232.667" width="52" height="0.666667"/>
-  <object id="219" x="2448" y="271.667" width="24"/>
   <object id="220" x="2468.67" y="237.333" width="26"/>
-  <object id="221" x="2841.33" y="243.333" width="28" height="0.666667"/>
-  <object id="222" x="2888.67" y="274" width="16.6667" height="0.666667"/>
-  <object id="227" x="3857.33" y="104" width="94" height="80.6667"/>
   <object id="229" x="-123.333" y="106.667"/>
-  <object id="231" x="3316" y="284" width="364" height="38"/>
-  <object id="232" x="3435" y="236" width="284" height="46"/>
-  <object id="233" x="1910" y="320" width="1520" height="22"/>
-  <object id="234" x="649" y="317" width="1145" height="55"/>
+  <object id="233" x="3273" y="313">
+   <polyline points="0,0 50,-45 104,-45 126,-70 174,-74 192,-122 283,-134"/>
+  </object>
+  <object id="234" x="3812" y="148" width="33" height="5"/>
+  <object id="235" x="3844" y="116" width="34" height="7"/>
  </objectgroup>
  <objectgroup id="9" name="poly">
   <object id="180" x="1605" y="202" width="24.5" height="6"/>
+  <object id="236" x="2038" y="280" width="28.6667" height="0.666667"/>
+  <object id="237" x="2450.67" y="272.667" width="24.6667"/>
+  <object id="238" x="2842" y="238.667" width="39.3333" height="0.666667"/>
  </objectgroup>
 </map>

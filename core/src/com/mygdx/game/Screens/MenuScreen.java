@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,14 +25,20 @@ public class MenuScreen implements Screen {
     SpriteBatch batch;
     Integer pos = 1;
     PlayScreen playScreen;
+    public static Sound menu,click,newgame;
 
     public  MenuScreen(MyGdxGame game){
         this.game = game;
         gamecam = new OrthographicCamera();
         gameport = new FitViewport(MyGdxGame.V_Width ,MyGdxGame.V_Height ,gamecam);
-        gamecam.position.set(gameport.getWorldWidth()/2.3f,gameport.getWorldHeight()/2.3f,0   );
+        gamecam.position.set(gameport.getWorldWidth(),gameport.getWorldHeight(),0   );
         batch = new SpriteBatch();
 
+        menu = Gdx.audio.newSound(Gdx.files.internal("Sound/menu.mp3"));
+        click = Gdx.audio.newSound(Gdx.files.internal("Sound/guli.mp3"));
+        newgame = Gdx.audio.newSound((Gdx.files.internal("Sound/newgame.mp3")));
+
+        long id = menu.loop();
 
         //here loadgamesprite means tutorial sprites
 
@@ -67,6 +74,8 @@ public class MenuScreen implements Screen {
 
        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
            if(pos == 1){
+               menu.stop();
+               newgame.play();
                playScreen = new PlayScreen(game);
                game.setScreen(playScreen);
            }
@@ -83,11 +92,13 @@ public class MenuScreen implements Screen {
            pos--;
            if(pos < 1 )
                pos = 4;
+           click.play();
        }
        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
            pos++;
            if(pos > 4)
                pos = 1;
+           click.play();
        }
 
        if(pos == 1)
@@ -141,6 +152,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        menu.dispose();
+        click.dispose();
     }
 }

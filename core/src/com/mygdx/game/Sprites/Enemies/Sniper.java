@@ -33,7 +33,7 @@ public class Sniper extends Sprite {
 
     float x, y;
     int kill;
-
+    public boolean bo = false;
     float engage_distance;
     float shooting_distance;
     float elspsedTime;
@@ -95,23 +95,18 @@ public class Sniper extends Sprite {
         TextureRegion region;
 
         if(!isDead) {
-            //System.out.println(sniper_body.getPosition().x - player_body_x);
             if (sniper_body.getPosition().x - player_body_x < engage_distance) {
-                //System.out.println("SSSSSS");
                 if (sniper_body.getPosition().x - player_body_x < shooting_distance) {
-                    System.out.println("shoot");
                     sniper_body.setLinearVelocity(0, sniper_body.getLinearVelocity().y);
                     region = (shooting.getKeyFrame(elspsedTime, true));
-                    if (count == 2) {//shooting.getKeyFrameIndex(elspsedTime) == 5) {
+                    if (count == 2) {
                         //shoot 1 bullet
                         shoot();
-                        System.out.println("boom");
                     } else if(count > 500) {
                         count = 0;
                     }
                     count++;
                 } else {
-                    System.out.println("run");
                     region = (running.getKeyFrame(elspsedTime, true));
                     sniper_body.applyLinearImpulse(new Vector2(-50f,0),sniper_body.getWorldCenter(),true);
                     //setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
@@ -120,7 +115,6 @@ public class Sniper extends Sprite {
                 setPosition(sniper_body.getPosition().x - getWidth()/2, sniper_body.getPosition().y - getHeight()/4);
             }
             else {
-                System.out.println("die");
                 region = (dying.getKeyFrame(elspsedTime, true));
             }
 
@@ -128,12 +122,19 @@ public class Sniper extends Sprite {
         }
         else {
             region = (dying.getKeyFrame(elspsedTime, false));
+            if(dying.getKeyFrameIndex(elspsedTime) == 12) {
+
+                world.destroyBody(sniper_body);
+                bo = true;
+            }
             deathTime += dt;
         }
-        if(deathTime == 0)
-        setRegion(region);
-        else
+        if(deathTime < 1)
+             setRegion(region);
+        else {
             world.destroyBody(sniper_body);
+            bo = true;
+        }
     }
 
     public void shoot() {

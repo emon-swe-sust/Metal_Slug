@@ -111,7 +111,6 @@ public class Bullet extends Sprite {
     }
 
     public  void  hitenemy(){
-        System.out.println("BAAL");
         destroyed = false;
         settodestroy = true;
     }

@@ -27,6 +27,8 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(MyGdxGame game){
         this.game = game;
         time = 0;
+        MyGdxGame.life=3;
+        MyGdxGame.score = 0;
 
         this.game = game;
         gamecam = new OrthographicCamera();
@@ -54,6 +56,7 @@ public class GameOverScreen implements Screen {
         over.draw(batch);
         batch.end();
         if(time >=3 ){
+            long id = MenuScreen.menu.loop();
             game.setScreen(game.menuScreen);
         }
     }

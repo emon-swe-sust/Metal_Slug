@@ -83,7 +83,7 @@ public class MenuScreen implements Screen {
                // will send tutorial screen
            }
            if(pos == 3){
-               // will send highscore screen
+                game.setScreen(game.highScoreClass);
            }
            if(pos == 4)
                Gdx.app.exit();
@@ -115,6 +115,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         handleinput();
+        HighScoreClass.update(MyGdxGame.highscore);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());

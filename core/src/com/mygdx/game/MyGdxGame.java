@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Screens.GameOverScreen;
+import com.mygdx.game.Screens.HighScoreClass;
 import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
+
+import java.io.IOException;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
@@ -17,8 +20,10 @@ public class MyGdxGame extends Game {
 	public static  final float PPM=100;
 	public static int score = 0;
 	public static int life = 3;
+	public static int highscore;
 	public MenuScreen menuScreen;
 	public GameOverScreen gameOverScreen;
+	public HighScoreClass highScoreClass;
 
 	public static final short DEFAULT_BIT=1;
 	public static final short PLAYER_BIT = 4;
@@ -29,14 +34,18 @@ public class MyGdxGame extends Game {
 	public static final short BULLET_BIT = 64;
 	public static final short ENEMY_BIT = 128;
 
-
-
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		menuScreen = new MenuScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+		try {
+			highScoreClass = new HighScoreClass(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setScreen(menuScreen);
+//		setScreen(highScoreClass);
 	}
 
 	@Override

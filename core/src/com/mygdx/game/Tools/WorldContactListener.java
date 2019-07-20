@@ -9,6 +9,8 @@ import com.mygdx.game.Sprites.EnemyBullet;
 import com.mygdx.game.Sprites.InteractiveTileObject;
 import com.mygdx.game.Sprites.Player;
 
+import java.io.IOException;
+
 public class WorldContactListener implements ContactListener {
 
     @Override
@@ -58,11 +60,19 @@ public class WorldContactListener implements ContactListener {
 
                 if(fixA.getFilterData().categoryBits == MyGdxGame.ENEMYBULLET_BIT){
                     ((EnemyBullet)fixA.getUserData()).hitenemy();
-                    ((Player)fixB.getUserData()).life();
+                    try {
+                        ((Player)fixB.getUserData()).life();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else{
                     ((EnemyBullet)fixB.getUserData()).hitenemy();
-                    ((Player)fixA.getUserData()).life();
+                    try {
+                        ((Player)fixA.getUserData()).life();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 

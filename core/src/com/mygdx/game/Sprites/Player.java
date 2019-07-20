@@ -17,6 +17,8 @@ import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
 import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player extends Sprite {
@@ -257,7 +259,7 @@ public class Player extends Sprite {
         b2body.createFixture(fdef).setUserData(this);
     }
 
-    public  void  life(){
+    public  void  life() throws IOException {
         diee.play();
         if (stand == 0) {
             bullethitcount++;
@@ -266,7 +268,11 @@ public class Player extends Sprite {
             setPosition(b2body.getPosition().x - getWidth() / 4, 500);
             if (bullethitcount == 3) {
                 settodestroy = true;
+                FileWriter fw = new FileWriter("HighScore.txt");
+                fw.write(MyGdxGame.highscore);
+                fw.close();
             }
+
         }
     }
 }

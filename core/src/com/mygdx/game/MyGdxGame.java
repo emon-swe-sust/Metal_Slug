@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Screens.GameOverScreen;
 import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
@@ -14,7 +15,10 @@ public class MyGdxGame extends Game {
 	public static final int V_Height=205  ;
 	public static final int V_Width=350;
 	public static  final float PPM=100;
+	public static int score = 0;
+	public static int life = 3;
 	public MenuScreen menuScreen;
+	public GameOverScreen gameOverScreen;
 
 	public static final short DEFAULT_BIT=1;
 	public static final short PLAYER_BIT = 4;
@@ -31,6 +35,7 @@ public class MyGdxGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		menuScreen = new MenuScreen(this);
+		gameOverScreen = new GameOverScreen(this);
 		setScreen(menuScreen);
 	}
 

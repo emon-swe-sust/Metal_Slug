@@ -164,7 +164,7 @@ public class Sniper extends Sprite {
     }
 
     public void die(){
-
+         MyGdxGame.score+=13;
          isDead = true;
     }
 

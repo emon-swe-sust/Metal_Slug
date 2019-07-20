@@ -53,12 +53,14 @@ public class Player extends Sprite {
     public boolean Right;//, In_air, Jump, Shoot, Throw, Crouch, Up, Walk, Idle, Fall;
     public int count = 0;
     float up=-1;
+    public int stand =0;
 
     public Player(World world, PlayScreen screen, MyGdxGame game) {//,ArrayList<Bullet>bullets) {
 
         this.world = world;
         this.screen = screen;
         this.game = game;
+
         //this.bullets = bullets;
         currentState = State.Walk;
         previousState = State.Walk;
@@ -117,19 +119,6 @@ public class Player extends Sprite {
         setRegion(new TextureRegion(idle, 0, 0, 52, 78));
     }
 
-    /*public void update(float dt, boolean spacePressed) {
-        //setBounds(0, 0, 52f/2, 78f/2);
-        //setPosition((b2body.getPosition().x) , (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2);
-
-        //setPosition((b2body.getPosition().x   + getWidth() + 120), (b2body.getPosition().y * MyGdxGame.ppm) - getHeight()/2 + 20);
-        setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
-        setRegion(getFrame(dt, spacePressed));
-
-        //temp = getFrame(dt);
-        //System.out.println(getX() + " | " + (b2body.getPosition().x * MyGdxGame.ppm - 52f/2));
-    }*/
-
-
     public void update(float dt, boolean spacePressed) {
         if(settodestroy){
             game.setScreen(game.menuScreen);
@@ -141,8 +130,12 @@ public class Player extends Sprite {
             else
                 up+=dt;
         }
-        else
-            setPosition(b2body.getPosition().x - getWidth()/4, b2body.getPosition().y - getHeight()/4);
+        else {
+            if(Right)
+                setPosition(b2body.getPosition().x - getWidth() / 4, b2body.getPosition().y - getHeight() / 4);
+            else
+                setPosition(b2body.getPosition().x - getWidth() /1.5f, b2body.getPosition().y - getHeight() / 4);
+        }
         setRegion(getFrame(dt, spacePressed));
     }
 
@@ -153,22 +146,31 @@ public class Player extends Sprite {
 
         switch (currentState) {
             //case Fall:
-            case Jump:
+            case Jump: {
                 region = jump.getKeyFrame(elspsedTime, false);
+                stand = 0;
                 break;
-            case Fall:
+            }
+            case Fall: {
                 region = fall.getKeyFrame(elspsedTime, true);
+                stand = 0;
                 break;
+            }
             case Throw: {
-
                 region = granade.getKeyFrame(elspsedTime, false);
+                stand = 0;
                 break;
             }
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
-                /*if(shoot.getKeyFrameIndex(elspsedTime) == 9)
-                    elspsedTime = 0;*/
-                if (count == 26){
+
+//                 /*if(shoot.getKeyFrameIndex(elspsedTime) == 9)
+//                     elspsedTime = 0;*/
+//                 if (count == 26){
+
+
+                if (count == 2){
+
                     float bulletx = b2body.getPosition().x + 5;
                     float bulletY = b2body.getPosition().y;
 
@@ -177,20 +179,27 @@ public class Player extends Sprite {
                     else
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, -250f));
                 }
-                else if(count > 30)
+                else if(count > 15)
                     count = 0;
                 count++;
+                stand = 0;
                 break;
             }
-            case Walk:
+            case Walk: {
                 region = walk.getKeyFrame(elspsedTime, true);
+                stand = 0;
                 break;
-            case Crouch:
+            }
+            case Crouch: {
                 region = crouch.getKeyFrame(elspsedTime, true);
+                stand = 1;
                 break;
-            default:
+            }
+            default: {
                 region = idle_anim.getKeyFrame(elspsedTime, true);
+                stand = 0;
                 break;
+            }
         }
 
         if((b2body.getLinearVelocity().x < 0 || !Right) && !region.isFlipX()) {
@@ -243,11 +252,14 @@ public class Player extends Sprite {
     }
 
     public  void  life(){
-        bullethitcount++;
-        up=0;
-        setPosition(b2body.getPosition().x - getWidth()/4, 500);
-        if(bullethitcount == 3){
-            settodestroy = true;
+        if (stand == 0) {
+            bullethitcount++;
+            MyGdxGame.life--;
+            up = 0;
+            setPosition(b2body.getPosition().x - getWidth() / 4, 500);
+            if (bullethitcount == 3) {
+                settodestroy = true;
+            }
         }
     }
 }

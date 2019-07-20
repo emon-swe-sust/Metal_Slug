@@ -110,23 +110,3 @@ public class B2WorldCreator {
 */
     }
 }
-/*sniper.add(new Sniper(world, this, 390, 275));
-        sniper.add(new Sniper(world, this, 520, 275));
-        sniper.add(new Sniper(world, this, 665, 275));
-        sniper.add(new Sniper(world, this, 750, 320));
-        sniper.add(new Sniper(world, this, 883, 320));
-        sniper.add(new Sniper(world, this, 900, 320));
-        sniper.add(new Sniper(world, this, 1030, 320));
-        sniper.add(new Sniper(world, this, 1190, 320));
-        sniper.add(new Sniper(world, this, 1300, 320));
-        sniper.add(new Sniper(world, this, 1480, 320));
-        sniper.add(new Sniper(world, this, 1660, 320));
-        sniper.add(new Sniper(world, this, 1842, 280));
-        sniper.add(new Sniper(world, this, 1900, 320));
-        sniper.add(new Sniper(world, this, 2150, 320));
-        sniper.add(new Sniper(world, this, 2285, 320));
-        sniper.add(new Sniper(world, this, 2500, 320));
-        sniper.add(new Sniper(world, this, 2700, 320));
-        sniper.add(new Sniper(world, this, 2885, 320));
-        sniper.add(new Sniper(world, this, 3000, 320));
-        sniper.add(new Sniper(world, this, 3250, 320));*/

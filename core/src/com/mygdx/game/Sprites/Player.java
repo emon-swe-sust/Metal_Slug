@@ -166,7 +166,8 @@ public class Player extends Sprite {
             }
             case Shoot: {
                 region = shoot.getKeyFrame(elspsedTime, true);
-
+                /*if(shoot.getKeyFrameIndex(elspsedTime) == 9)
+                    elspsedTime = 0;*/
                 if (count == 26){
                     float bulletx = b2body.getPosition().x + 5;
                     float bulletY = b2body.getPosition().y;
@@ -226,7 +227,7 @@ public class Player extends Sprite {
 
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(60f + 52/2, 100f + 78/2);
+        bdef.position.set(3750f + 52/2, 300f + 78/2);
 
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);

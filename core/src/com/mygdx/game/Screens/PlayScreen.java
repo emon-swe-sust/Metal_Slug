@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Scene.Hud;
+import com.mygdx.game.Sprites.Boss.FirstBoss;
 import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
@@ -29,6 +30,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
     //public Warrior player;
     public Player player;
+
+    public FirstBoss boss1;
 
     public boolean bool;
     public boolean isHurt=false;
@@ -77,6 +80,8 @@ public class PlayScreen implements Screen, InputProcessor {
         player = new Player(world, this,game);
         // world.setContactListener(new WorldContactListener());
 
+        boss1 = new FirstBoss(world, this);
+
         sniper = new Sniper(world, this, 900, 130);
         sniper1 = new Sniper(world,this,1200,130);
         snipers = new ArrayList<Sniper>();
@@ -124,8 +129,8 @@ public class PlayScreen implements Screen, InputProcessor {
         countDt=countDt%500;
 
 
-        if(right && player.b2body.getLinearVelocity().x<=50)
-            player.b2body.applyLinearImpulse(new Vector2(50f,0),player.b2body.getWorldCenter(),true);
+        if(right && player.b2body.getLinearVelocity().x<=1000000)
+            player.b2body.applyLinearImpulse(new Vector2(1000000f,0),player.b2body.getWorldCenter(),true);
 
         else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
@@ -145,6 +150,8 @@ public class PlayScreen implements Screen, InputProcessor {
 
         //player
         player.update(dt, spacePressed);
+
+        boss1.update(dt);
 
         //enemy
 
@@ -191,6 +198,9 @@ public class PlayScreen implements Screen, InputProcessor {
         game.batch.begin();
 
         player.draw(game.batch);
+
+        boss1.draw(game.batch);
+
         for (int i=0;i<snipers.size();i++){
             snipers.get(i).draw(game.batch);
         }
@@ -199,12 +209,12 @@ public class PlayScreen implements Screen, InputProcessor {
                 snipers.get(j).enemybullets.get(i).draw(game.batch);
         }
 
-        System.out.println(sniper.enemybullets.size());
+        //System.out.println(sniper.enemybullets.size());
 
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
-        System.out.println(" -- > " + player.bullets.size());
+        //System.out.println(" -- > " + player.bullets.size());
         game.batch.end();
 
 

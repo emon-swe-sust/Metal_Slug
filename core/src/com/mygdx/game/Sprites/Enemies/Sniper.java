@@ -65,6 +65,7 @@ public class Sniper extends Sprite {
         sniper_die = new Texture("Sprites/Enemies/Sniper/die.png");
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
+
         enemybullets = new ArrayList<EnemyBullet>();
 
         for(int i=0; i<12; i++)
@@ -79,7 +80,7 @@ public class Sniper extends Sprite {
 
         for(int i=0; i<12; i++)
             frames.add(new TextureRegion(sniper_die, i*48, 0, 48, 47));
-        dying = new Animation<TextureRegion>(1f/3f, frames);
+        dying = new Animation<TextureRegion>(1f/1f, frames);
         frames.clear();
 
         defineSniper();
@@ -99,19 +100,19 @@ public class Sniper extends Sprite {
             if (sniper_body.getPosition().x - player_body_x < engage_distance) {
                 //System.out.println("SSSSSS");
                 if (sniper_body.getPosition().x - player_body_x < shooting_distance) {
-                    System.out.println("shoot");
+                    //System.out.println("shoot");
                     sniper_body.setLinearVelocity(0, sniper_body.getLinearVelocity().y);
                     region = (shooting.getKeyFrame(elspsedTime, true));
                     if (count == 2) {//shooting.getKeyFrameIndex(elspsedTime) == 5) {
                         //shoot 1 bullet
                         shoot();
-                        System.out.println("boom");
+                        //System.out.println("boom");
                     } else if(count > 500) {
                         count = 0;
                     }
                     count++;
                 } else {
-                    System.out.println("run");
+                    //System.out.println("run");
                     region = (running.getKeyFrame(elspsedTime, true));
                     sniper_body.applyLinearImpulse(new Vector2(-50f,0),sniper_body.getWorldCenter(),true);
                     //setPosition(((sniper_body.getPosition().x * MyGdxGame.ppm) - 48f/2f),((sniper_body.getPosition().y * MyGdxGame.ppm) - 47f/2f));
@@ -120,7 +121,7 @@ public class Sniper extends Sprite {
                 setPosition(sniper_body.getPosition().x - getWidth()/2, sniper_body.getPosition().y - getHeight()/4);
             }
             else {
-                System.out.println("die");
+                //System.out.println("die");
                 region = (dying.getKeyFrame(elspsedTime, true));
             }
 
@@ -128,12 +129,16 @@ public class Sniper extends Sprite {
         }
         else {
             region = (dying.getKeyFrame(elspsedTime, false));
-            deathTime += dt;
+            elspsedTime += dt;
+            System.out.println(dying.getKeyFrameIndex(elspsedTime));
+            //deathTime += dt;
         }
-        if(deathTime == 0)
+
+        setRegion(region);
+        /*if(deathTime == 0)
         setRegion(region);
         else
-            world.destroyBody(sniper_body);
+            world.destroyBody(sniper_body);*/
     }
 
     public void shoot() {

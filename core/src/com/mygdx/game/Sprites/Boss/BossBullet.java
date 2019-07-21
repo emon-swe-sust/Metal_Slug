@@ -1,4 +1,4 @@
-package com.mygdx.game.Sprites;
+package com.mygdx.game.Sprites.Boss;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,12 +13,12 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.MenuScreen;
 import com.mygdx.game.Screens.PlayScreen;
 
-public class Bullet extends Sprite {
+public class BossBullet extends Sprite {
     World world;
     public Texture texture;
     public TextureRegion textureRegion;
     public //boolean right;
-    float velocity;
+            float velocity;
     public boolean settodestroy;
     public boolean destroyed;
     public boolean noob;
@@ -34,7 +34,7 @@ public class Bullet extends Sprite {
     private boolean pos;
     private boolean bpos;
 
-    public Bullet(World world,PlayScreen screen,float posx,float posy, float velocity){
+    public BossBullet(World world,PlayScreen screen,float posx,float posy, float velocity){
         this.screen = screen;
         //this.right = right;
         this.velocity = velocity;
@@ -45,7 +45,7 @@ public class Bullet extends Sprite {
         noob = true;
         bpos = false;
 
-        texture = new Texture("Sprites/Player/Spritesheets/temp/bullet.png");
+        texture = new Texture("Sprites/Enemies/Tetsuyuki/laser3.png");
         textureRegion = new TextureRegion(texture);
         statetime = 0;
 
@@ -69,22 +69,12 @@ public class Bullet extends Sprite {
 
         } else if (!destroyed) {
             setPosition(b2bulletbody.getPosition().x - getWidth() / 2, b2bulletbody.getPosition().y - getHeight() / 2f);
-           }
-
-        /*if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
-            System.out.println("--> " + b2bulletbody.getPosition().x);
-
-        if(b2bulletbody.getPosition().x > 3000|| b2bulletbody.getPosition().x < 0){
-            //System.out.println("--> " + b2bulletbody.getPosition().x);
-
-            remove = true;
-            settodestroy = true;
-        }*/
+        }
     }
 
     public void definebullet(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(posx,posy);
+        bdef.position.set(posx,posy-5);
         bdef.bullet = true;
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.gravityScale = 0;
@@ -92,11 +82,13 @@ public class Bullet extends Sprite {
         b2bulletbody = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(3);
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(3);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(8,5);
 
-        fdef.filter.categoryBits = MyGdxGame.BULLET_BIT;
-        fdef.filter.maskBits = MyGdxGame.GROUND_BIT | MyGdxGame.ENEMY_BIT | MyGdxGame.BOSSS_BIT;
+        fdef.filter.categoryBits = MyGdxGame.BOSS_BULLET_BIT;
+        fdef.filter.maskBits =  MyGdxGame.PLAYER_BIT;
         fdef.shape = shape;
         fdef.restitution = 0;
         fdef.friction = 0;

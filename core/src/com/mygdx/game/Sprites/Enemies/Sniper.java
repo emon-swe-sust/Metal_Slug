@@ -105,11 +105,11 @@ public class Sniper extends Sprite {
 
                     sniper_body.setLinearVelocity(0, sniper_body.getLinearVelocity().y);
                     region = (shooting.getKeyFrame(elspsedTime, true));
-                    if (count == 2) {
+                    if (count == 70) {
                         //shoot 1 bullet
                         shoot();
 
-                    } else if(count > 500) {
+                    } else if(count > 400) {
                         count = 0;
                     }
                     count++;
@@ -155,7 +155,7 @@ public class Sniper extends Sprite {
     public void defineSniper() {
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set((x + 48f/2f), (y + 47f/2f));
+        bdef.position.set((x + 48f/2f), (50));
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.gravityScale = 20;
         sniper_body = world.createBody(bdef);

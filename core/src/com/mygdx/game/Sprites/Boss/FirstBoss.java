@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.PlayScreen;
 import com.mygdx.game.Sprites.EnemyBullet;
 
@@ -23,11 +23,13 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
     private Animation<TextureRegion> laser;
     private Animation<TextureRegion> shooting;
     private Animation<TextureRegion> charging;
+    public ArrayList<BossBullet> bossBullets;
 
     boolean isDead;
 
     State currentState;
     State previousState;
+    public MyGdxGame game;
 
 
     float shootDistance;
@@ -36,10 +38,10 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
     float hitPoint;
 
     public World world;
-    public Body sniper_body;
+    public Body b2body;
     private PlayScreen screen;
 
-    public FirstBoss(World world, PlayScreen screen) {
+    public FirstBoss(World world, PlayScreen screen,MyGdxGame game) {
 
         this.world = world;
         this.screen = screen;
@@ -53,6 +55,10 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
 
         currentState = State.idle;
         previousState = State.shoot;
+
+        this.game = game;
+
+        bossBullets = new ArrayList<BossBullet>();
 
         laser_fire = new Texture("Sprites/Enemies/Tetsuyuki/laser3.png");
         canon_fire = new Texture("Sprites/Enemies/Tetsuyuki/canon_fire2.png");
@@ -78,7 +84,24 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
         setBounds(99, 0, 99, 61);
         setRegion(new TextureRegion(canon_fire, 99, 0, 99, 61));
         setPosition(3900, 167); //130 - 167
+        define();
+    }
 
+    public void define(){
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(3975, 167f);
+
+        bdef.type = BodyDef.BodyType.StaticBody;
+        b2body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(10, 40);
+        fdef.filter.categoryBits = MyGdxGame.BOSSS_BIT;
+        fdef.filter.maskBits = MyGdxGame.BULLET_BIT | MyGdxGame.GROUND_BIT;
+        fdef.shape = shape;
+        b2body.createFixture(fdef).setUserData(this);
     }
 
     public void update(float dt) {
@@ -98,12 +121,19 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
                 animationChangeTime += dt;
             } else if (currentState == State.charge) {
                 //System.out.println((charging.getKeyFrameIndex(elapsedTime)));
+
+                if (getY() < 90) {
+                    setPosition(getX(), getY() + 10f);
+                } else if (getY() > 200)
+                    setPosition(getX(), getY() - 10f);
+
                 if (charging.getKeyFrameIndex(elapsedTime) == 18) {
                     currentState = State.shoot;
                     elapsedTime = 0f;
                 }
                 setRegion(charging.getKeyFrame(elapsedTime, false));
-            } else if (currentState == State.shoot) {
+            } else if (currentState == State.shoot && MyGdxGame.wait == 0 ) {
+                bossBullets.add(new BossBullet(world,screen,getX()+50,getY()+20,-500));
                 //System.out.println((shooting.getKeyFrameIndex(elapsedTime)));
                 if (shooting.getKeyFrameIndex(elapsedTime) == 6) {
                     currentState = State.idle;
@@ -112,13 +142,19 @@ public class FirstBoss extends Sprite {  //Each frame size 99 x 61
                 setRegion(shooting.getKeyFrame(elapsedTime, false));
             }
         } else {
-            //dead
+            game.setScreen(game.sGameOverScreen);
         }
 
-        System.out.println(currentState + " >< " + getY());
-
         elapsedTime += dt;
+        if(hitPoint <= 0){
+            isDead = true;
+        }
+    }
 
+    public void bosshit(){
+
+        hitPoint--;
+        System.out.println(hitPoint);
     }
 
     /*public void update(float dt) {

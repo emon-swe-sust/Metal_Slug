@@ -18,7 +18,12 @@ import com.mygdx.game.Sprites.Enemies.Sniper;
 import com.mygdx.game.Sprites.Player;
 import com.mygdx.game.Tools.B2WorldCreator;
 import com.mygdx.game.Tools.WorldContactListener;
+
+import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 
 public class PlayScreen implements Screen, InputProcessor {
@@ -35,13 +40,8 @@ public class PlayScreen implements Screen, InputProcessor {
     public FirstBoss boss1;
 
     public boolean bool;
-    public boolean isHurt=false;
-    public boolean enemyisHurt=false;
-    public boolean cam = false;
     public boolean spacePressed = false;
 
-    public Sniper sniper;
-    public Sniper sniper1;
     public ArrayList<Sniper> snipers;
 
     public Sound play;
@@ -64,8 +64,7 @@ public class PlayScreen implements Screen, InputProcessor {
     private Box2DDebugRenderer b2dr;
 
 
-    public PlayScreen(MyGdxGame game)
-    {
+    public PlayScreen(MyGdxGame game) {
         this.game=game;
 
         play = Gdx.audio.newSound(Gdx.files.internal("Sound/stage-1.mp3"));
@@ -85,18 +84,12 @@ public class PlayScreen implements Screen, InputProcessor {
         player = new Player(world, this,game);
         // world.setContactListener(new WorldContactListener());
 
-        boss1 = new FirstBoss(world, this);
+        boss1 = new FirstBoss(world, this,this.game);
 
-        sniper = new Sniper(world, this, 900, 130);
-        sniper1 = new Sniper(world,this,1200,130);
-        snipers = new ArrayList<Sniper>();
+         snipers = new ArrayList<Sniper>();
 
-        snipers.add(new Sniper(world, this, 390, 130));
         snipers.add(new Sniper(world, this, 520, 130));
-        snipers.add(new Sniper(world, this, 665, 130));
-//        snipers.add(new Sniper(world, this, 750, 130));
-//        snipers.add(new Sniper(world, this, 883, 130));
-//        snipers.add(new Sniper(world, this, 900, 130));
+        snipers.add(new Sniper(world, this, 720, 130));
         snipers.add(new Sniper(world, this, 1030, 130));
         snipers.add(new Sniper(world, this, 1190, 130));
         snipers.add(new Sniper(world, this, 1300, 130));
@@ -134,8 +127,8 @@ public class PlayScreen implements Screen, InputProcessor {
         countDt=countDt%500;
 
 
-        if(right && player.b2body.getLinearVelocity().x<=1000000)
-            player.b2body.applyLinearImpulse(new Vector2(1000000f,0),player.b2body.getWorldCenter(),true);
+        if(right && player.b2body.getLinearVelocity().x<=50)
+            player.b2body.applyLinearImpulse(new Vector2(50f,0),player.b2body.getWorldCenter(),true);
 
         else if(left && player.b2body.getLinearVelocity().x>=-50)
             player.b2body.applyLinearImpulse(new Vector2(-50f,0),player.b2body.getWorldCenter(),true);
@@ -150,6 +143,10 @@ public class PlayScreen implements Screen, InputProcessor {
         //System.out.println(right + "ssds" + left);
     }
     public void update(float dt){
+
+        if(player.b2body.getLinearVelocity().y == 0)
+            jump = false;
+
         handleInput(dt);
         world.step(1/60f,6,2);
 
@@ -158,9 +155,10 @@ public class PlayScreen implements Screen, InputProcessor {
 
         boss1.update(dt);
 
+        for (int i=0;i<boss1.bossBullets.size();i++){
+            boss1.bossBullets.get(i).update(dt);
+        }
         //enemy
-
-
         int sccor = 0;
         for(int i=0;i<snipers.size();i++){
             snipers.get(i).update(dt,player.b2body.getPosition().x);
@@ -180,12 +178,17 @@ public class PlayScreen implements Screen, InputProcessor {
                 snipers.get(j).enemybullets.get(i).update(dt);
             }
         }
+        if(MyGdxGame.wait > 0)
+            MyGdxGame.wait--;
 
         hud.update(sccor,MyGdxGame.life);
 
         gamecam.position.x= player.b2body.getPosition().x+80;
         if(player.b2body.getPosition().x > 3306 && player.b2body.getPosition().x < 3542) // 3306 3542)
             gamecam.position.y = player.b2body.getPosition().y+40;
+        if(player.b2body.getPosition().x > 3542) {
+            gamecam.position.y = 180;
+        }
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -204,11 +207,15 @@ public class PlayScreen implements Screen, InputProcessor {
 
         renderer.render();
         //render our box debug line
-        b2dr.render(world,gamecam.combined);
+        //b2dr.render(world,gamecam.combined);
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
 
         player.draw(game.batch);
+
+        for(int i=0;i<boss1.bossBullets.size();i++){
+            boss1.bossBullets.get(i).draw(game.batch);
+        }
 
         boss1.draw(game.batch);
 
@@ -219,12 +226,7 @@ public class PlayScreen implements Screen, InputProcessor {
             for (int i = 0; i < snipers.get(j).enemybullets.size(); i++)
                 snipers.get(j).enemybullets.get(i).draw(game.batch);
         }
-
-
-
         //System.out.println(sniper.enemybullets.size());
-
-
         for(int i = 0 ; i < player.bullets.size() ; i++){
             player.bullets.get(i).draw(game.batch);
         }
@@ -279,9 +281,10 @@ public class PlayScreen implements Screen, InputProcessor {
             MenuScreen.menu.play();
             game.setScreen(game.menuScreen);
         }
-        else if(keycode == Input.Keys.SPACE) {
+        else if(keycode == Input.Keys.SPACE && !jump) {
             player.b2body.applyLinearImpulse(new Vector2(0, 153f), player.b2body.getWorldCenter(), true);
             spacePressed = true;
+            jump = true;
         }
         else if(keycode == Input.Keys.RIGHT)
             right = true;

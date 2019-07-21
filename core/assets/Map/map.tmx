@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="240">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="127" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="245">
  <tileset firstgid="1" name="map" tilewidth="32" tileheight="32" tilecount="1270" columns="127">
   <image source="mission-1.png" width="4088" height="336"/>
  </tileset>
@@ -52,15 +52,19 @@
   <object id="220" x="2468.67" y="237.333" width="26"/>
   <object id="229" x="-123.333" y="106.667"/>
   <object id="233" x="3271" y="312.333">
-   <polygon points="0,0 50,-45 104,-45 126,-70 174,-74 192,-122 283,-134 282.333,3.66667"/>
+   <polygon points="0,0 50,-45 104,-45 126,-70 174,-74 192,-122 301,-135 282.333,3.66667"/>
   </object>
-  <object id="234" x="3812" y="148" width="33" height="5"/>
-  <object id="235" x="3844" y="116" width="34" height="7"/>
+  <object id="234" x="3809" y="143" width="33"/>
+  <object id="235" x="3844" y="110" width="34"/>
   <object id="239" x="3969.33" y="107.333" width="96.6667" height="70"/>
+  <object id="240" x="861" y="273" width="51"/>
+  <object id="241" x="1116" y="275" width="44"/>
+  <object id="242" x="3726" y="82" width="50" height="2"/>
+  <object id="244" x="3911" y="84" width="70" height="1"/>
  </objectgroup>
  <objectgroup id="9" name="poly">
   <object id="180" x="1605" y="202" width="24.5" height="6"/>
-  <object id="236" x="2038" y="280" width="28.6667" height="0.666667"/>
+  <object id="236" x="2043" y="282" width="28.6667" height="0.666667"/>
   <object id="237" x="2450.67" y="272.667" width="24.6667"/>
   <object id="238" x="2842" y="238.667" width="39.3333" height="0.666667"/>
  </objectgroup>

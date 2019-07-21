@@ -15,6 +15,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 
+import java.io.*;
+import java.util.Scanner;
+
 public class MenuScreen implements Screen {
 
     private OrthographicCamera gamecam;
@@ -27,7 +30,9 @@ public class MenuScreen implements Screen {
     PlayScreen playScreen;
     public static Sound menu,click,newgame;
 
-    public  MenuScreen(MyGdxGame game){
+    public  MenuScreen(MyGdxGame game) {
+        MyGdxGame.wait=0;
+        MyGdxGame.life=3;
         this.game = game;
         gamecam = new OrthographicCamera();
         gameport = new FitViewport(MyGdxGame.V_Width ,MyGdxGame.V_Height ,gamecam);
@@ -42,10 +47,10 @@ public class MenuScreen implements Screen {
 
         //here loadgamesprite means tutorial sprites
 
-        highscoresprite = new Sprite(new Texture("Menu/HighScore.jpg"));
-        loadgamesprite = new Sprite(new Texture("Menu/Tutorial.jpg"));
-        newgamesprite = new Sprite(new Texture("Menu/NewGame.jpg"));
-        exitsprite = new Sprite(new Texture("Menu/Exit.jpg"));
+        highscoresprite = new Sprite(new Texture("Menu/About.png"));
+        loadgamesprite = new Sprite(new Texture("Menu/Tutorial.png"));
+        newgamesprite = new Sprite(new Texture("Menu/NewGame.png"));
+        exitsprite = new Sprite(new Texture("Menu/Exit.png"));
         sprite = new Sprite(new Texture("Menu/metalslug1.png"));
         bgsprite = new Sprite(new Texture("Menu/back.png"));
         coversprite = new Sprite(new Texture("Menu/cover.png"));
@@ -81,9 +86,10 @@ public class MenuScreen implements Screen {
            }
            if(pos == 2){
                // will send tutorial screen
+               game.setScreen(game.tutorialScreem);
            }
            if(pos == 3){
-                game.setScreen(game.highScoreClass);
+               game.setScreen(game.AboutScreen);
            }
            if(pos == 4)
                Gdx.app.exit();
@@ -115,7 +121,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         handleinput();
-        HighScoreClass.update(MyGdxGame.highscore);
+        MyGdxGame.life=3;
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());

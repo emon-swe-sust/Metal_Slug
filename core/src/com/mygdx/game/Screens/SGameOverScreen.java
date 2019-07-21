@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MyGdxGame;
 
-public class GameOverScreen implements Screen {
+public class SGameOverScreen implements Screen {
 
 
     private OrthographicCamera gamecam;
@@ -23,12 +24,13 @@ public class GameOverScreen implements Screen {
     private  SpriteBatch batch;
     private Sprite over;
     private float time ;
+    private BitmapFont font;
 
-    public GameOverScreen(MyGdxGame game){
+    public SGameOverScreen(MyGdxGame game){
         this.game = game;
         time = 0;
-       // MyGdxGame.life=3;
-       // MyGdxGame.score = 0;
+        // MyGdxGame.life=3;
+        // MyGdxGame.score = 0;
 
         update();
 
@@ -37,6 +39,9 @@ public class GameOverScreen implements Screen {
         gameport = new FitViewport(MyGdxGame.V_Width ,MyGdxGame.V_Height ,gamecam);
         gamecam.position.set(gameport.getWorldWidth()/2.3f,gameport.getWorldHeight()/2.3f,0   );
         batch = new SpriteBatch();
+
+        font =  new BitmapFont(Gdx.files.internal("Font/tashfe.fnt"));
+
 
         over = new Sprite(new Texture("extra/gameover.png"));
         over.setPosition(168,90);
@@ -64,6 +69,8 @@ public class GameOverScreen implements Screen {
 
         batch.begin();
         over.draw(batch);
+        font.getData().setScale(2f, 2f);
+        font.draw(batch, "CONGRATULATION", 25, 270);
         batch.end();
         if(time >=3 ){
             long id = MenuScreen.menu.loop();

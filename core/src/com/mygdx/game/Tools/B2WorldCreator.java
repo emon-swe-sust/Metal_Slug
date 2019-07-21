@@ -14,10 +14,10 @@ import com.mygdx.game.Sprites.Ground;
 public class B2WorldCreator {
     public B2WorldCreator(World world , TiledMap map){
 
-        BodyDef bdef =new BodyDef();
+       /* BodyDef bdef =new BodyDef();
         PolygonShape shape =new PolygonShape();
         FixtureDef fdef = new FixtureDef();
-        Body body;
+        Body body;*/
 
         //create ground bodies/fixtures
         for(MapObject object: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){

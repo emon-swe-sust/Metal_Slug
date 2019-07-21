@@ -32,6 +32,7 @@ public class Player extends Sprite {
     public World world;
     public Body b2body;
     private PlayScreen screen;
+    public int fight = 0;
 
     private Texture idle;
     private Texture walking;
@@ -177,8 +178,15 @@ public class Player extends Sprite {
 
                 if (count == 2){
 
-                    float bulletx = b2body.getPosition().x + 5;
-                    float bulletY = b2body.getPosition().y;
+                    float bulletx;
+                    float bulletY;
+                    if(Right)
+                        bulletx = b2body.getPosition().x + 10;
+
+                    else
+                        bulletx = b2body.getPosition().x - 10;
+
+                    bulletY = b2body.getPosition().y + 5;
 
                     if(Right)
                         bullets.add(new Bullet(world, screen, bulletx, bulletY, 250f));
@@ -210,10 +218,12 @@ public class Player extends Sprite {
 
         if((b2body.getLinearVelocity().x < 0 || !Right) && !region.isFlipX()) {
             region.flip(true, false);
+            stand=1;
             Right = false;
         }
         else if((b2body.getLinearVelocity().x > 0 || Right) && region.isFlipX()) {
             region.flip(true, false);
+            stand = 1;
             Right = true;
         }
         elspsedTime = currentState == previousState ? elspsedTime + dt : 0;
@@ -226,7 +236,7 @@ public class Player extends Sprite {
 
         if(b2body.getLinearVelocity().y > 0 && spacePressed)
             return  State.Jump;
-        else if(b2body.getLinearVelocity().y < 0)
+        else if(b2body.getLinearVelocity().y < 0 && spacePressed)
             return State.Fall;
         else if(b2body.getLinearVelocity().x != 0)
             return State.Walk;
@@ -244,7 +254,7 @@ public class Player extends Sprite {
 
     public void definePlayer() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(3750f + 52/2, 300f + 78/2);
+        bdef.position.set(200f + 52/2, 300f + 78/2);
 
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
@@ -254,25 +264,41 @@ public class Player extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(10, 20);
         fdef.filter.categoryBits = MyGdxGame.PLAYER_BIT;
-        fdef.filter.maskBits = MyGdxGame.ENEMYBULLET_BIT | MyGdxGame.GROUND_BIT;
+        fdef.filter.maskBits = MyGdxGame.ENEMYBULLET_BIT | MyGdxGame.GROUND_BIT | MyGdxGame.BOSS_BULLET_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
     }
 
-    public  void  life() throws IOException {
-        diee.play();
+    public  void  life() {
         if (stand == 0) {
+            diee.play();
             bullethitcount++;
             MyGdxGame.life--;
             up = 0;
             setPosition(b2body.getPosition().x - getWidth() / 4, 500);
             if (bullethitcount == 3) {
                 settodestroy = true;
-                FileWriter fw = new FileWriter("HighScore.txt");
-                fw.write(MyGdxGame.highscore);
-                fw.close();
             }
+        }
+    }
 
+    public void bossfight() {
+        if(fight == 0 && stand == 0){
+            diee.play();
+            bullethitcount++;
+            MyGdxGame.life--;
+            fight++;
+            up = 0;
+            MyGdxGame.wait = 1000;
+            setPosition(b2body.getPosition().x - getWidth() / 4, 900);
+            if (bullethitcount == 3) {
+                settodestroy = true;
+            }
+        }
+        else{
+            fight++;
+            if(fight==25)
+                fight=0;
         }
     }
 }

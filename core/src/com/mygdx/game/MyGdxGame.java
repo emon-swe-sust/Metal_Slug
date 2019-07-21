@@ -1,16 +1,11 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Screens.GameOverScreen;
-import com.mygdx.game.Screens.HighScoreClass;
-import com.mygdx.game.Screens.MenuScreen;
-import com.mygdx.game.Screens.PlayScreen;
+import com.mygdx.game.Screens.*;
+//import com.mygdx.game.Screens.HighScoreClass;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MyGdxGame extends Game {
@@ -21,29 +16,32 @@ public class MyGdxGame extends Game {
 	public static int score = 0;
 	public static int life = 3;
 	public static int highscore;
+	public static int wait = 0;
 	public MenuScreen menuScreen;
 	public GameOverScreen gameOverScreen;
-	public HighScoreClass highScoreClass;
+	public SGameOverScreen sGameOverScreen;
+	public About AboutScreen;
+	public TutorialScreen tutorialScreem;
 
 	public static final short DEFAULT_BIT=1;
 	public static final short PLAYER_BIT = 4;
-	public static final short WARRIOR_BIT=8;
+	public static final short BOSSS_BIT=8;
 	public static final short ENEMYBULLET_BIT=16;//door bit / enemy bit
 	public static final short GROUND_BIT=2;
 	public static final short DESTROYED_BIT=32;
 	public static final short BULLET_BIT = 64;
 	public static final short ENEMY_BIT = 128;
+	public static final short BOSS_BULLET_BIT = 256;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		menuScreen = new MenuScreen(this);
+
 		gameOverScreen = new GameOverScreen(this);
-		try {
-			highScoreClass = new HighScoreClass(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AboutScreen = new About(this);
+		tutorialScreem = new TutorialScreen(this);
+		sGameOverScreen = new SGameOverScreen(this);
 		setScreen(menuScreen);
 //		setScreen(highScoreClass);
 	}
